@@ -51,6 +51,7 @@
 		7365DFA42B6A37410072FA8C /* YPhEditorUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YPhEditorUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7365DFA82B6A37410072FA8C /* YPhEditorUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YPhEditorUITests.swift; sourceTree = "<group>"; };
 		7365DFAA2B6A37410072FA8C /* YPhEditorUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YPhEditorUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		7365DFB72B6A39A40072FA8C /* .gitignore.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = .gitignore.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +82,7 @@
 		7365DF782B6A373E0072FA8C = {
 			isa = PBXGroup;
 			children = (
+				7365DFB72B6A39A40072FA8C /* .gitignore.md */,
 				7365DF832B6A373E0072FA8C /* YPhEditor */,
 				7365DF9D2B6A37410072FA8C /* YPhEditorTests */,
 				7365DFA72B6A37410072FA8C /* YPhEditorUITests */,
