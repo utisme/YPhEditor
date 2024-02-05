@@ -7,16 +7,29 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		732DFBB82B6BB9F100403283 /* BaseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 732DFBB72B6BB9F000403283 /* BaseButton.swift */; };
+		734D84E62B6D0B3C00C8F1D2 /* MetalImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 734D84E52B6D0B3C00C8F1D2 /* MetalImageView.swift */; };
+		734D84E82B6D0D8600C8F1D2 /* ImageProcessingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 734D84E72B6D0D8600C8F1D2 /* ImageProcessingManager.swift */; };
+		734D84EA2B6D25F400C8F1D2 /* MenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 734D84E92B6D25F400C8F1D2 /* MenuViewModel.swift */; };
+		734D84EC2B6D262400C8F1D2 /* MenuViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 734D84EB2B6D262400C8F1D2 /* MenuViewModelProtocol.swift */; };
 		7365DF852B6A373E0072FA8C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7365DF842B6A373E0072FA8C /* AppDelegate.swift */; };
 		7365DF872B6A373E0072FA8C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7365DF862B6A373E0072FA8C /* SceneDelegate.swift */; };
-		7365DF892B6A373E0072FA8C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7365DF882B6A373E0072FA8C /* ViewController.swift */; };
-		7365DF8C2B6A373E0072FA8C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7365DF8A2B6A373E0072FA8C /* Main.storyboard */; };
+		7365DF892B6A373E0072FA8C /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7365DF882B6A373E0072FA8C /* MenuViewController.swift */; };
 		7365DF8F2B6A373E0072FA8C /* YPhEditor.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 7365DF8D2B6A373E0072FA8C /* YPhEditor.xcdatamodeld */; };
 		7365DF912B6A37410072FA8C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7365DF902B6A37410072FA8C /* Assets.xcassets */; };
 		7365DF942B6A37410072FA8C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7365DF922B6A37410072FA8C /* LaunchScreen.storyboard */; };
 		7365DF9F2B6A37410072FA8C /* YPhEditorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7365DF9E2B6A37410072FA8C /* YPhEditorTests.swift */; };
 		7365DFA92B6A37410072FA8C /* YPhEditorUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7365DFA82B6A37410072FA8C /* YPhEditorUITests.swift */; };
 		7365DFAB2B6A37410072FA8C /* YPhEditorUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7365DFAA2B6A37410072FA8C /* YPhEditorUITestsLaunchTests.swift */; };
+		7365DFC02B6A499D0072FA8C /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7365DFBF2B6A499D0072FA8C /* BaseViewController.swift */; };
+		7365DFC22B6A4B570072FA8C /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7365DFC12B6A4B570072FA8C /* NavigationController.swift */; };
+		7365DFC42B6A553B0072FA8C /* NavBarButtonType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7365DFC32B6A553B0072FA8C /* NavBarButtonType.swift */; };
+		7365DFC72B6A64080072FA8C /* MenuButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7365DFC62B6A64080072FA8C /* MenuButton.swift */; };
+		7365DFCA2B6A656B0072FA8C /* Resources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7365DFC92B6A656B0072FA8C /* Resources.swift */; };
+		7365DFCD2B6A65850072FA8C /* UIView + Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7365DFCC2B6A65850072FA8C /* UIView + Ext.swift */; };
+		7365DFD02B6A66CA0072FA8C /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 7365DFCF2B6A66CA0072FA8C /* SnapKit */; };
+		7365DFD42B6A6CE70072FA8C /* String + Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7365DFD32B6A6CE70072FA8C /* String + Ext.swift */; };
+		736F72F62B70DAAC002DEA6F /* FilterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736F72F52B70DAAC002DEA6F /* FilterProtocol.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,11 +50,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		732DFBB72B6BB9F000403283 /* BaseButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseButton.swift; sourceTree = "<group>"; };
+		734D84E52B6D0B3C00C8F1D2 /* MetalImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalImageView.swift; sourceTree = "<group>"; };
+		734D84E72B6D0D8600C8F1D2 /* ImageProcessingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageProcessingManager.swift; sourceTree = "<group>"; };
+		734D84E92B6D25F400C8F1D2 /* MenuViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewModel.swift; sourceTree = "<group>"; };
+		734D84EB2B6D262400C8F1D2 /* MenuViewModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewModelProtocol.swift; sourceTree = "<group>"; };
 		7365DF812B6A373E0072FA8C /* YPhEditor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YPhEditor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7365DF842B6A373E0072FA8C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7365DF862B6A373E0072FA8C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		7365DF882B6A373E0072FA8C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		7365DF8B2B6A373E0072FA8C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		7365DF882B6A373E0072FA8C /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 		7365DF8E2B6A373E0072FA8C /* YPhEditor.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = YPhEditor.xcdatamodel; sourceTree = "<group>"; };
 		7365DF902B6A37410072FA8C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7365DF932B6A37410072FA8C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -51,7 +68,14 @@
 		7365DFA42B6A37410072FA8C /* YPhEditorUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YPhEditorUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7365DFA82B6A37410072FA8C /* YPhEditorUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YPhEditorUITests.swift; sourceTree = "<group>"; };
 		7365DFAA2B6A37410072FA8C /* YPhEditorUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YPhEditorUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		7365DFB72B6A39A40072FA8C /* .gitignore.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = .gitignore.md; sourceTree = "<group>"; };
+		7365DFBF2B6A499D0072FA8C /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		7365DFC12B6A4B570072FA8C /* NavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationController.swift; sourceTree = "<group>"; };
+		7365DFC32B6A553B0072FA8C /* NavBarButtonType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavBarButtonType.swift; sourceTree = "<group>"; };
+		7365DFC62B6A64080072FA8C /* MenuButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuButton.swift; sourceTree = "<group>"; };
+		7365DFC92B6A656B0072FA8C /* Resources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Resources.swift; sourceTree = "<group>"; };
+		7365DFCC2B6A65850072FA8C /* UIView + Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView + Ext.swift"; sourceTree = "<group>"; };
+		7365DFD32B6A6CE70072FA8C /* String + Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String + Ext.swift"; sourceTree = "<group>"; };
+		736F72F52B70DAAC002DEA6F /* FilterProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterProtocol.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +83,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7365DFD02B6A66CA0072FA8C /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -82,7 +107,6 @@
 		7365DF782B6A373E0072FA8C = {
 			isa = PBXGroup;
 			children = (
-				7365DFB72B6A39A40072FA8C /* .gitignore.md */,
 				7365DF832B6A373E0072FA8C /* YPhEditor */,
 				7365DF9D2B6A37410072FA8C /* YPhEditorTests */,
 				7365DFA72B6A37410072FA8C /* YPhEditorUITests */,
@@ -103,14 +127,13 @@
 		7365DF832B6A373E0072FA8C /* YPhEditor */ = {
 			isa = PBXGroup;
 			children = (
-				7365DF842B6A373E0072FA8C /* AppDelegate.swift */,
-				7365DF862B6A373E0072FA8C /* SceneDelegate.swift */,
-				7365DF882B6A373E0072FA8C /* ViewController.swift */,
-				7365DF8A2B6A373E0072FA8C /* Main.storyboard */,
-				7365DF902B6A37410072FA8C /* Assets.xcassets */,
-				7365DF922B6A37410072FA8C /* LaunchScreen.storyboard */,
-				7365DF952B6A37410072FA8C /* Info.plist */,
-				7365DF8D2B6A373E0072FA8C /* YPhEditor.xcdatamodeld */,
+				7365DFBA2B6A42560072FA8C /* Model */,
+				7365DFBD2B6A47280072FA8C /* ViewModel */,
+				7365DFBC2B6A471C0072FA8C /* Protocols */,
+				7365DFBB2B6A470D0072FA8C /* View */,
+				7365DFC82B6A654B0072FA8C /* Helpers */,
+				7365DFB92B6A42310072FA8C /* SupportingFiles */,
+				7365DFB82B6A420D0072FA8C /* Application */,
 			);
 			path = YPhEditor;
 			sourceTree = "<group>";
@@ -132,6 +155,107 @@
 			path = YPhEditorUITests;
 			sourceTree = "<group>";
 		};
+		7365DFB82B6A420D0072FA8C /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				7365DF862B6A373E0072FA8C /* SceneDelegate.swift */,
+				7365DF842B6A373E0072FA8C /* AppDelegate.swift */,
+			);
+			path = Application;
+			sourceTree = "<group>";
+		};
+		7365DFB92B6A42310072FA8C /* SupportingFiles */ = {
+			isa = PBXGroup;
+			children = (
+				7365DF952B6A37410072FA8C /* Info.plist */,
+				7365DF922B6A37410072FA8C /* LaunchScreen.storyboard */,
+				7365DF902B6A37410072FA8C /* Assets.xcassets */,
+			);
+			path = SupportingFiles;
+			sourceTree = "<group>";
+		};
+		7365DFBA2B6A42560072FA8C /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				7365DF8D2B6A373E0072FA8C /* YPhEditor.xcdatamodeld */,
+				734D84E72B6D0D8600C8F1D2 /* ImageProcessingManager.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		7365DFBB2B6A470D0072FA8C /* View */ = {
+			isa = PBXGroup;
+			children = (
+				7365DFBE2B6A498A0072FA8C /* Base */,
+				7365DFC52B6A63DB0072FA8C /* MenuView */,
+				7365DFC12B6A4B570072FA8C /* NavigationController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		7365DFBC2B6A471C0072FA8C /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				736F72F72B70E421002DEA6F /* ViewModelProtocols */,
+				736F72F52B70DAAC002DEA6F /* FilterProtocol.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
+		7365DFBD2B6A47280072FA8C /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				734D84E92B6D25F400C8F1D2 /* MenuViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		7365DFBE2B6A498A0072FA8C /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				7365DFBF2B6A499D0072FA8C /* BaseViewController.swift */,
+				732DFBB72B6BB9F000403283 /* BaseButton.swift */,
+				7365DFC32B6A553B0072FA8C /* NavBarButtonType.swift */,
+				734D84E52B6D0B3C00C8F1D2 /* MetalImageView.swift */,
+			);
+			path = Base;
+			sourceTree = "<group>";
+		};
+		7365DFC52B6A63DB0072FA8C /* MenuView */ = {
+			isa = PBXGroup;
+			children = (
+				7365DF882B6A373E0072FA8C /* MenuViewController.swift */,
+				7365DFC62B6A64080072FA8C /* MenuButton.swift */,
+			);
+			path = MenuView;
+			sourceTree = "<group>";
+		};
+		7365DFC82B6A654B0072FA8C /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				7365DFC92B6A656B0072FA8C /* Resources.swift */,
+				7365DFCB2B6A65720072FA8C /* Extensions */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		7365DFCB2B6A65720072FA8C /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				7365DFCC2B6A65850072FA8C /* UIView + Ext.swift */,
+				7365DFD32B6A6CE70072FA8C /* String + Ext.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		736F72F72B70E421002DEA6F /* ViewModelProtocols */ = {
+			isa = PBXGroup;
+			children = (
+				734D84EB2B6D262400C8F1D2 /* MenuViewModelProtocol.swift */,
+			);
+			path = ViewModelProtocols;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -148,6 +272,9 @@
 			dependencies = (
 			);
 			name = YPhEditor;
+			packageProductDependencies = (
+				7365DFCF2B6A66CA0072FA8C /* SnapKit */,
+			);
 			productName = YPhEditor;
 			productReference = 7365DF812B6A373E0072FA8C /* YPhEditor.app */;
 			productType = "com.apple.product-type.application";
@@ -220,6 +347,9 @@
 				Base,
 			);
 			mainGroup = 7365DF782B6A373E0072FA8C;
+			packageReferences = (
+				7365DFCE2B6A66CA0072FA8C /* XCRemoteSwiftPackageReference "SnapKit" */,
+			);
 			productRefGroup = 7365DF822B6A373E0072FA8C /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -238,7 +368,6 @@
 			files = (
 				7365DF942B6A37410072FA8C /* LaunchScreen.storyboard in Resources */,
 				7365DF912B6A37410072FA8C /* Assets.xcassets in Resources */,
-				7365DF8C2B6A373E0072FA8C /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -263,9 +392,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7365DF892B6A373E0072FA8C /* ViewController.swift in Sources */,
+				7365DFD42B6A6CE70072FA8C /* String + Ext.swift in Sources */,
+				7365DFC02B6A499D0072FA8C /* BaseViewController.swift in Sources */,
+				734D84E82B6D0D8600C8F1D2 /* ImageProcessingManager.swift in Sources */,
+				734D84EA2B6D25F400C8F1D2 /* MenuViewModel.swift in Sources */,
+				7365DFC22B6A4B570072FA8C /* NavigationController.swift in Sources */,
+				7365DF892B6A373E0072FA8C /* MenuViewController.swift in Sources */,
+				734D84E62B6D0B3C00C8F1D2 /* MetalImageView.swift in Sources */,
+				736F72F62B70DAAC002DEA6F /* FilterProtocol.swift in Sources */,
 				7365DF852B6A373E0072FA8C /* AppDelegate.swift in Sources */,
+				7365DFCD2B6A65850072FA8C /* UIView + Ext.swift in Sources */,
+				734D84EC2B6D262400C8F1D2 /* MenuViewModelProtocol.swift in Sources */,
+				7365DFC72B6A64080072FA8C /* MenuButton.swift in Sources */,
+				7365DFC42B6A553B0072FA8C /* NavBarButtonType.swift in Sources */,
+				7365DFCA2B6A656B0072FA8C /* Resources.swift in Sources */,
 				7365DF8F2B6A373E0072FA8C /* YPhEditor.xcdatamodeld in Sources */,
+				732DFBB82B6BB9F100403283 /* BaseButton.swift in Sources */,
 				7365DF872B6A373E0072FA8C /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -303,14 +445,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		7365DF8A2B6A373E0072FA8C /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				7365DF8B2B6A373E0072FA8C /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		7365DF922B6A37410072FA8C /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -374,7 +508,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -431,7 +565,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -450,12 +584,15 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = K3MH22V3Y9;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = YPhEditor/Info.plist;
+				INFOPLIST_FILE = YPhEditor/SupportingFiles/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = YPhEditor;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.photography";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIStatusBarStyle = "";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -463,9 +600,13 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.E-Peaces.YPhEditor";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -478,12 +619,15 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = K3MH22V3Y9;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = YPhEditor/Info.plist;
+				INFOPLIST_FILE = YPhEditor/SupportingFiles/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = YPhEditor;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.photography";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIStatusBarStyle = "";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -491,9 +635,13 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.E-Peaces.YPhEditor";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -613,6 +761,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		7365DFCE2B6A66CA0072FA8C /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.7.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		7365DFCF2B6A66CA0072FA8C /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7365DFCE2B6A66CA0072FA8C /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		7365DF8D2B6A373E0072FA8C /* YPhEditor.xcdatamodeld */ = {
