@@ -7,7 +7,17 @@
 
 import Foundation
 import UIKit
+import RxSwift
 
 protocol MenuViewModelProtocol {
-    func prepareImage(_ image: CIImage, to view: MetalImageView) -> CIImage
+    
+    var needShowImageProcessingVC: PublishSubject<Bool> { get }
+    var disposeBag: DisposeBag { get }
+    
+    func prepareImageForBackground(_ image: CIImage, to view: MetalImageView) -> CIImage
+    
+    func navBarButtonAction()
+    func galleryButtonAction()
+    
+    func getSuggestionsViewModel() -> SuggestionsViewModelProtocol
 }

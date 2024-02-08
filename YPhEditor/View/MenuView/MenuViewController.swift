@@ -8,8 +8,9 @@
 import UIKit
 import MetalKit
 
-class MenuViewController: BaseViewController {
+final class MenuViewController: BaseViewController {
     
+// MARK: PROPERTIES
     var viewModel: MenuViewModelProtocol? = MenuViewModel()
     
     let backgroundImage: MetalImageView = {
@@ -50,12 +51,40 @@ class MenuViewController: BaseViewController {
         stackView.spacing = 0.5
         return stackView
     }()
+ 
+// MARK: - ACTIONS
+    @objc func navBarButtonAction() {
+        viewModel?.navBarButtonAction()
+    }
     
+    @objc func suggestionsButtonAction() {
+        let suggestionsVC = SuggestionsViewController()
+        suggestionsVC.viewModel = viewModel?.getSuggestionsViewModel()
+        showDetailViewController(suggestionsVC, sender: self)
+    }
+    
+    @objc func galleryButtonAction() {
+        viewModel?.galleryButtonAction()
+    }
+
+// MARK: - CONFIGURATIONS
+    func configureViewModel() {                                     // TODO: - подумать есть ли смысл вынести этот блок в willSet к viewModel
+        guard let viewModel else { return }
+        viewModel.needShowImageProcessingVC
+            .asObservable()
+            .subscribe(onNext: { [weak self] _ in
+                
+            })
+            .disposed(by: viewModel.disposeBag)
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        addNavBarButton(ofType: .options, action: nil)
+        addNavBarButton(ofType: .options, action: #selector(navBarButtonAction))
+        
+        galleryButton.addTarget(self, action: #selector(galleryButtonAction), for: .touchUpInside)
+        suggestionsButton.addTarget(self, action: #selector(suggestionsButtonAction), for: .touchUpInside)
         
         backgroundImage.delegate = self
     }
@@ -65,6 +94,7 @@ class MenuViewController: BaseViewController {
 
 extension MenuViewController {
     override func configureAppearance() {
+        navigationController?.navigationBar.barStyle = .black
     }
     
     override func setupSubviews() {
@@ -120,7 +150,7 @@ extension MenuViewController: MTKViewDelegate {
               let image = CIImage(mtlTexture: sourceTexture)
         else { return }
         
-        if let processedImage = viewModel?.prepareImage(image, to: view) {
+        if let processedImage = viewModel?.prepareImageForBackground(image, to: view) {
             
             let bounds = CGRect(x: 0, y: 0, width: view.drawableSize.width, height: view.drawableSize.height)
             view.context.render(processedImage,

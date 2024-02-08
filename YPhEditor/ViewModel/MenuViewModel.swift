@@ -7,10 +7,14 @@
 
 import Foundation
 import UIKit
+import RxSwift
 
-class MenuViewModel: MenuViewModelProtocol {
+final class MenuViewModel: MenuViewModelProtocol {
     
-    func prepareImage(_ image: CIImage, to view: MetalImageView) -> CIImage {
+    let needShowImageProcessingVC = PublishSubject<Bool>()
+    let disposeBag = DisposeBag()
+    
+    func prepareImageForBackground(_ image: CIImage, to view: MetalImageView) -> CIImage {
 
         let scaledToViewImage = ImageProcessingManager.shared.fitImage(image, to: view)
         
@@ -22,5 +26,26 @@ class MenuViewModel: MenuViewModelProtocol {
         monoArea = ImageProcessingManager.MonoFilter().apply(for: monoArea)
         
         return monoArea.composited(over: scaledToViewImage)
+    }
+    
+    func galleryButtonAction() {
+        
+    }
+    
+    func getSuggestionsViewModel() -> SuggestionsViewModelProtocol {
+        
+        let suggestionsViewModel = SuggestionsViewModel()
+        suggestionsViewModel.vcWillDisappearObservable
+            .asObservable()
+            .subscribe { [weak self] _ in
+                self?.needShowImageProcessingVC.onNext(true)
+            }
+            .disposed(by: disposeBag)
+        
+        return suggestionsViewModel
+    }
+    
+    func navBarButtonAction() {
+        
     }
 }

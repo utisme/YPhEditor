@@ -29,6 +29,10 @@ struct Resources {
             static let sticker = UIImage(named: "sticker")
             static let logo = UIImage(named: "logo")
         }
+        
+        enum Suggestions {
+            static let downArrow = UIImage(systemName: "chevron.compact.down")
+        }
     }
     
 // MARK: - COLORS

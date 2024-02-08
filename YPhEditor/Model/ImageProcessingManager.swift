@@ -8,7 +8,7 @@
 import Foundation
 import MetalKit
 
-class ImageProcessingManager {
+final class ImageProcessingManager {
     
     static let shared = ImageProcessingManager()
     private init() { }
@@ -38,7 +38,7 @@ class ImageProcessingManager {
     
     // MARK: - FILTERS
     
-    class MonoFilter: Filter {
+    final class MonoFilter: Filter {
         
         let filter: CIFilter! = CIFilter(name: "CIPhotoEffectNoir")
         
