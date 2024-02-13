@@ -6,9 +6,21 @@
 //
 
 import UIKit
+import RxSwift
 
 class BaseButton: UIButton {
     
+    func setCompletion(disposedBy disposeBag: DisposeBag, completion: @escaping ()->()) {
+            
+        self.rx
+            .tap
+            .bind(onNext: completion)
+            .disposed(by: disposeBag)
+    }
+}
+
+// MARK: - ANIMATION
+extension BaseButton {
     func addAnimation() {
         
         self.addTarget(self, action: #selector(touchDownAnimation), for: [
@@ -36,4 +48,5 @@ class BaseButton: UIButton {
             self.alpha = 1
         }
     }
+    
 }

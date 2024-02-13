@@ -6,27 +6,34 @@
 //
 
 import UIKit
+import RxCocoa
+import RxSwift
 
 class BaseViewController: UIViewController {    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        configure()
         configureAppearance()
         setupSubviews()
         constraintSubviews()
-        
-        navigationItem.rightBarButtonItems = []
     }
     
-    func addNavBarButton(ofType type: NavBarButtonType, action: Selector?) {
+    func addNavBarButton(ofType type: NavBarButtonType, disposedBy disposeBag: DisposeBag, completion: @escaping ()->Void) {
         switch type {
             
         case .options:
             let button = UIBarButtonItem(image: .init(systemName: "ellipsis.circle.fill"), 
                                          style: .plain,
-                                         target: self,
-                                         action: action)
+                                         target: nil,
+                                         action: nil)
+            
+            button.rx
+                .tap
+                .bind(onNext: completion)
+                .disposed(by: disposeBag)
+            
             button.tintColor = .gray
             navigationItem.rightBarButtonItems?.append(button)
         }  
@@ -35,6 +42,11 @@ class BaseViewController: UIViewController {
 
 
 @objc extension BaseViewController {
+    
+    func configure() {
+        navigationItem.rightBarButtonItems = []
+    }
+    
     func configureAppearance() {
         
         view.backgroundColor = Resources.Colors.background

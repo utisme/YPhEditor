@@ -11,7 +11,7 @@ final class SuggestionsCollectionViewCell: UICollectionViewCell {
     
     static let id = "SuggestionsCollectionViewCell"
     
-    var imageView: UIImageView = {
+    private let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         return imageView
@@ -29,16 +29,16 @@ final class SuggestionsCollectionViewCell: UICollectionViewCell {
 }
 
 extension SuggestionsCollectionViewCell {
-    func configureAppearance() {
+    private func configureAppearance() {
         layer.cornerRadius = 4
         clipsToBounds = true
     }
     
-    func setupSubviews() {
+    private func setupSubviews() {
         addSubviews(imageView)
     }
     
-    func constraintSubviews() {
+    private func constraintSubviews() {
         imageView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }

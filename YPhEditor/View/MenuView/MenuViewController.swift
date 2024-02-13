@@ -7,107 +7,126 @@
 
 import UIKit
 import MetalKit
+import RxCocoa
 
 final class MenuViewController: BaseViewController {
     
 // MARK: PROPERTIES
-    var viewModel: MenuViewModelProtocol? = MenuViewModel()
+    var viewModel: MenuViewModelProtocol = MenuViewModel()
     
-    let backgroundImage: MetalImageView = {
+    private let backgroundImage: MetalImageView = {
         let metalImageView = MetalImageView(frame: .zero)
         metalImageView.setTexture(from: Resources.Images.Menu.background)
         return metalImageView
     }()
     
-    let stickerView: UIImageView = {
+    private let stickerView: UIImageView = {
         let stickerView = UIImageView()
         stickerView.image = Resources.Images.Menu.sticker
         stickerView.contentMode = .scaleToFill
         return stickerView
     }()
     
-    let logoImView: UIImageView = {
+    private let logoImView: UIImageView = {
         let logo = UIImageView()
         logo.image = Resources.Images.Menu.logo
         logo.contentMode = .scaleAspectFit
         return logo
     }()
     
-    let galleryButton: MenuButton = {
+    private let galleryButton: MenuButton = {
         let button = MenuButton()
         button.configure(withLabel: Resources.Strings.Menu.gallery)
         return button
     }()
     
-    let suggestionsButton: MenuButton = {
+    private let suggestionsButton: MenuButton = {
         let button = MenuButton()
         button.configure(withLabel: Resources.Strings.Menu.suggestions)
         return button
     }()
     
-    let stackView: UIStackView = {
+    private let stackView: UIStackView = {
         let stackView = UIStackView()
         stackView.distribution = .fillEqually
         stackView.spacing = 0.5
         return stackView
     }()
- 
-// MARK: - ACTIONS
-    @objc func navBarButtonAction() {
-        viewModel?.navBarButtonAction()
-    }
     
-    @objc func suggestionsButtonAction() {
-        let suggestionsVC = SuggestionsViewController()
-        suggestionsVC.viewModel = viewModel?.getSuggestionsViewModel()
-        showDetailViewController(suggestionsVC, sender: self)
-    }
+    private let imagePicker: UIImagePickerController = {
+        let imagePicker = UIImagePickerController()
+        imagePicker.allowsEditing = false
+        return imagePicker
+    }()
     
-    @objc func galleryButtonAction() {
-        viewModel?.galleryButtonAction()
-    }
-
 // MARK: - CONFIGURATIONS
-    func configureViewModel() {                                     // TODO: - подумать есть ли смысл вынести этот блок в willSet к viewModel
-        guard let viewModel else { return }
+    func subscribeToViewModel() {
         viewModel.needShowImageProcessingVC
             .asObservable()
             .subscribe(onNext: { [weak self] _ in
-                
+                let destVC = ImageEditingViewController()
+                self?.navigationController?.pushViewController(destVC, animated: true)
             })
             .disposed(by: viewModel.disposeBag)
     }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        addNavBarButton(ofType: .options, action: #selector(navBarButtonAction))
+    
+    func configureButtons() {
         
-        galleryButton.addTarget(self, action: #selector(galleryButtonAction), for: .touchUpInside)
-        suggestionsButton.addTarget(self, action: #selector(suggestionsButtonAction), for: .touchUpInside)
+        addNavBarButton(ofType: .options, disposedBy: viewModel.disposeBag, completion: { [unowned self] in
+            viewModel.navBarButtonAction()
+        })
         
-        backgroundImage.delegate = self
+        suggestionsButton.setCompletion(disposedBy: viewModel.disposeBag) { [unowned self] in
+            
+            let suggestionsVC = SuggestionsViewController()
+            suggestionsVC.viewModel = viewModel.getSuggestionsViewModel()
+            showDetailViewController(suggestionsVC, sender: self)
+        }
+        
+        galleryButton.setCompletion(disposedBy: viewModel.disposeBag) { [unowned self] in
+            
+            imagePicker.sourceType = .photoLibrary
+            let imagePickerAlert = ImagePickerAlert { [unowned self] in
+                if $0.title == Resources.Strings.Gallery.alertActionCamera {
+                    imagePicker.sourceType = .camera
+                }
+                present(imagePicker, animated: true)
+            }
+            present(imagePickerAlert, animated: true)
+        }
     }
 }
 
-// MARK: - APPEARANCE
-
 extension MenuViewController {
+    
+    override func configure() {
+        super.configure()
+        
+        backgroundImage.delegate = self
+        
+        subscribeToViewModel()
+        configureButtons()
+    }
+
+// MARK: - APPEARANCE
     override func configureAppearance() {
+        super.configureAppearance()
+        
         navigationController?.navigationBar.barStyle = .black
     }
     
     override func setupSubviews() {
+        super.setupSubviews()
         
         view.addSubviews(backgroundImage, stackView)
         backgroundImage.addSubviews(stickerView)
         stickerView.addSubviews(logoImView)
         
-        stackView.addArrangedSubview(galleryButton)
-        stackView.addArrangedSubview(suggestionsButton)
+        stackView.addArrangedSubviews(galleryButton, suggestionsButton)
     }
     
     override func constraintSubviews() {
+        super.constraintSubviews()
         
         backgroundImage.snp.makeConstraints { make in
             make.edges.equalToSuperview()
@@ -150,19 +169,30 @@ extension MenuViewController: MTKViewDelegate {
               let image = CIImage(mtlTexture: sourceTexture)
         else { return }
         
-        if let processedImage = viewModel?.prepareImageForBackground(image, to: view) {
-            
-            let bounds = CGRect(x: 0, y: 0, width: view.drawableSize.width, height: view.drawableSize.height)
-            view.context.render(processedImage,
-                                to: currentDrawable.texture,
-                                commandBuffer: commandBuffer,
-                                bounds: bounds,
-                                colorSpace: view.colorSpace)
-            commandBuffer.present(currentDrawable)
-        }
+        let processedImage = viewModel.prepareImageForBackground(image, to: view)
+        
+        let bounds = CGRect(x: 0, y: 0, width: view.drawableSize.width, height: view.drawableSize.height)
+        view.context.render(processedImage,
+                            to: currentDrawable.texture,
+                            commandBuffer: commandBuffer,
+                            bounds: bounds,
+                            colorSpace: view.colorSpace)
+        commandBuffer.present(currentDrawable)
         commandBuffer.commit()
     }
 }
 
+// MARK: - IMAGE PICKER DELEGATE
 
-
+extension MenuViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        let selectedImage = info[.originalImage] as? UIImage
+        viewModel.pickImage(selectedImage)
+        imagePicker.dismiss(animated: true)
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        imagePicker.dismiss(animated: true)
+    }
+}

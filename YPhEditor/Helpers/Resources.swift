@@ -4,6 +4,7 @@
 //
 //  Created by Эдгар Кусков on 31.01.24.
 //
+// посмотреть на swiftGen
 
 import Foundation
 import UIKit
@@ -17,6 +18,14 @@ struct Resources {
             
             static let gallery = "Gallery".localized()
             static let suggestions = "Suggestions".localized()
+        }
+        
+        enum Gallery {
+            
+            static let alertTitle = "Import an image from: ".localized()
+            static let alertActionGallery = "Gallery".localized()
+            static let alertActionCamera = "Camera".localized()
+            static let alertActionCancel = "Cancel".localized()
         }
     }
 

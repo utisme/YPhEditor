@@ -28,10 +28,6 @@ final class MenuViewModel: MenuViewModelProtocol {
         return monoArea.composited(over: scaledToViewImage)
     }
     
-    func galleryButtonAction() {
-        
-    }
-    
     func getSuggestionsViewModel() -> SuggestionsViewModelProtocol {
         
         let suggestionsViewModel = SuggestionsViewModel()
@@ -46,6 +42,10 @@ final class MenuViewModel: MenuViewModelProtocol {
     }
     
     func navBarButtonAction() {
+        print("nav button action")
+    }
+    
+    func pickImage(_ image: UIImage?) {
         
     }
 }

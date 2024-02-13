@@ -38,7 +38,7 @@ final class SuggestionsViewController: BaseViewController {
     }()
     
 // MARK: - CONFIGURATIONS
-    func configureViewModel() {                                     // TODO: - подумать есть ли смысл вынести этот блок в willSet к viewModel
+    func subscribeToViewModel() {
         guard let viewModel else { return }
         viewModel.imagesObservable
             .asObservable()
@@ -46,38 +46,40 @@ final class SuggestionsViewController: BaseViewController {
                 
                 self?.activityIndicator.stopAnimating()
                 self?.collectionView.reloadData()
-                self?.collectionView.isHidden = false
             })
             .disposed(by: viewModel.disposeBag)
         viewModel.configure()
     }
+}
+
+extension SuggestionsViewController {
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func configure() {
+        super.configure()
         
-        configureViewModel()
+        subscribeToViewModel()
         
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.register(SuggestionsCollectionViewCell.self, forCellWithReuseIdentifier: SuggestionsCollectionViewCell.id)
         
         activityIndicator.startAnimating()
-        collectionView.isHidden = true
     }
-}
-
-// MARK: APPEARANCE
-extension SuggestionsViewController {
     
+// MARK: APPEARANCE
     override func configureAppearance() {
+        super.configureAppearance()
         
     }
     
     override func setupSubviews() {
+        super.setupSubviews()
+        
         view.addSubviews(blurView, activityIndicator, footer, collectionView)
     }
     
     override func constraintSubviews() {
+        super.constraintSubviews()
         
         blurView.snp.makeConstraints { make in
             make.edges.equalToSuperview()

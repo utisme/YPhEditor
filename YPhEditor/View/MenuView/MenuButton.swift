@@ -10,6 +10,16 @@ import SnapKit
 
 class MenuButton: BaseButton {
     
+    convenience init() {
+        self.init(frame: .zero)
+        
+        configureAppearance()
+        setupSubviews()
+        constraintSubviews()
+        
+        addAnimation()
+    }
+    
     let label: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
@@ -19,12 +29,6 @@ class MenuButton: BaseButton {
     }()
     
     func configure(withLabel label: String?) {
-        configureAppearance()
-        setupSubviews()
-        constraintSubviews()
-        
-        addAnimation()
-        
         self.label.text = label
     }
 }
