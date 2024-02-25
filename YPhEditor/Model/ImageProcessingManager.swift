@@ -15,14 +15,19 @@ final class ImageProcessingManager {
     
     let device: MTLDevice! = MTLCreateSystemDefaultDevice()
     
-    func fitImage(_ image: CIImage, to view: MetalImageView) -> CIImage {
+    func fitImage(_ image: CIImage, to view: MetalImageView, minScale: Bool = false) -> CIImage {
         
         let viewWidth = view.drawableSize.width
         let viewHeight = view.drawableSize.height
         
         let scaleX = viewWidth / image.extent.width
         let scaleY = viewHeight / image.extent.height
-        let scale: CGFloat = max(scaleX, scaleY)
+        var scale: CGFloat
+        if minScale {
+            scale = min(scaleX, scaleY)
+        } else {
+            scale = max(scaleX, scaleY)
+        }
         
         let newImageWidth = image.extent.width * scale
         let newImageHeight = image.extent.height * scale

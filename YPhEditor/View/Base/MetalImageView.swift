@@ -17,8 +17,8 @@ class MetalImageView: MTKView {
     let colorSpace = CGColorSpaceCreateDeviceRGB()
     
     convenience init(frame: CGRect) {
-        let device: MTLDevice = ImageProcessingManager.shared.device
         
+        let device: MTLDevice = ImageProcessingManager.shared.device
         self.init(frame: frame, device: device)
         
         framebufferOnly = false
@@ -28,6 +28,7 @@ class MetalImageView: MTKView {
     }
     
     func setTexture(from image: UIImage?) {
+        
         guard let cgImage = image?.cgImage else { return }           // TODO: HANDLE ERROR
         sourceTexture = try? loader.newTexture(cgImage: cgImage, options: [MTKTextureLoader.Option.origin: MTKTextureLoader.Origin.flippedVertically])
     }

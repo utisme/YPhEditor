@@ -14,7 +14,6 @@ protocol MenuViewModelProtocol {
     var needShowImageProcessingVC: PublishSubject<Bool> { get }
     var disposeBag: DisposeBag { get }
     
-    func prepareImageForBackground(_ image: CIImage, to view: MetalImageView) -> CIImage
     func navBarButtonAction()
     func getSuggestionsViewModel() -> SuggestionsViewModelProtocol
     func pickImage(_ image: UIImage?)

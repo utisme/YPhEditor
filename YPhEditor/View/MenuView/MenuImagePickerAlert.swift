@@ -1,5 +1,5 @@
 //
-//  ImagePickerAlert.swift
+//  MenuImagePickerAlert.swift
 //  YPhEditor
 //
 //  Created by Эдгар Кусков on 12.02.24.
@@ -7,9 +7,9 @@
 
 import UIKit
 
-final class ImagePickerAlert: UIAlertController {
+final class MenuImagePickerAlert: UIAlertController {
     
-    var completion: ((UIAlertAction)->())?
+    private var completion: ((UIAlertAction)->())?
     
     convenience init(completion: ((UIAlertAction)->Void)? = nil) {
         self.init(
@@ -22,13 +22,13 @@ final class ImagePickerAlert: UIAlertController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        configure()
+        setConfigurations()
     }
 }
 
-extension ImagePickerAlert {
+extension MenuImagePickerAlert {
     
-    func configure() {
+    private func setConfigurations() {
         
         let alertActionGallery = UIAlertAction(
             title: Resources.Strings.Gallery.alertActionGallery,

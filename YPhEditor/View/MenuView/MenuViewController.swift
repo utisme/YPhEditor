@@ -12,13 +12,9 @@ import RxCocoa
 final class MenuViewController: BaseViewController {
     
 // MARK: PROPERTIES
-    var viewModel: MenuViewModelProtocol = MenuViewModel()
+    private var viewModel: MenuViewModelProtocol = MenuViewModel()
     
-    private let backgroundImage: MetalImageView = {
-        let metalImageView = MetalImageView(frame: .zero)
-        metalImageView.setTexture(from: Resources.Images.Menu.background)
-        return metalImageView
-    }()
+    private let backgroundImage = MenuBackgroundView()
     
     private let stickerView: UIImageView = {
         let stickerView = UIImageView()
@@ -60,17 +56,17 @@ final class MenuViewController: BaseViewController {
     }()
     
 // MARK: - CONFIGURATIONS
-    func subscribeToViewModel() {
+    private func subscribeToViewModel() {
         viewModel.needShowImageProcessingVC
             .asObservable()
-            .subscribe(onNext: { [weak self] _ in
+            .subscribe(onNext: { [unowned self] _ in
                 let destVC = ImageEditingViewController()
-                self?.navigationController?.pushViewController(destVC, animated: true)
+                show(destVC, sender: nil)
             })
             .disposed(by: viewModel.disposeBag)
     }
     
-    func configureButtons() {
+    private func configureButtons() {
         
         addNavBarButton(ofType: .options, disposedBy: viewModel.disposeBag, completion: { [unowned self] in
             viewModel.navBarButtonAction()
@@ -80,13 +76,13 @@ final class MenuViewController: BaseViewController {
             
             let suggestionsVC = SuggestionsViewController()
             suggestionsVC.viewModel = viewModel.getSuggestionsViewModel()
-            showDetailViewController(suggestionsVC, sender: self)
+            present(suggestionsVC, animated: true)
         }
         
         galleryButton.setCompletion(disposedBy: viewModel.disposeBag) { [unowned self] in
             
             imagePicker.sourceType = .photoLibrary
-            let imagePickerAlert = ImagePickerAlert { [unowned self] in
+            let imagePickerAlert = MenuImagePickerAlert { [unowned self] in
                 if $0.title == Resources.Strings.Gallery.alertActionCamera {
                     imagePicker.sourceType = .camera
                 }
@@ -99,10 +95,10 @@ final class MenuViewController: BaseViewController {
 
 extension MenuViewController {
     
-    override func configure() {
-        super.configure()
+    override func setConfigurations() {
+        super.setConfigurations()
         
-        backgroundImage.delegate = self
+        imagePicker.delegate = self
         
         subscribeToViewModel()
         configureButtons()
@@ -155,35 +151,7 @@ extension MenuViewController {
     }
 }
 
-// MARK: - MTKView DELEGATE
-
-extension MenuViewController: MTKViewDelegate {
-    func mtkView(_ view: MTKView, drawableSizeWillChange size: CGSize) { }
-    
-    func draw(in view: MTKView) {
-        
-        guard let view = view as? MetalImageView,
-              let currentDrawable = view.currentDrawable,
-              let sourceTexture = view.sourceTexture,
-              let commandBuffer = view.commandQueue.makeCommandBuffer(),
-              let image = CIImage(mtlTexture: sourceTexture)
-        else { return }
-        
-        let processedImage = viewModel.prepareImageForBackground(image, to: view)
-        
-        let bounds = CGRect(x: 0, y: 0, width: view.drawableSize.width, height: view.drawableSize.height)
-        view.context.render(processedImage,
-                            to: currentDrawable.texture,
-                            commandBuffer: commandBuffer,
-                            bounds: bounds,
-                            colorSpace: view.colorSpace)
-        commandBuffer.present(currentDrawable)
-        commandBuffer.commit()
-    }
-}
-
 // MARK: - IMAGE PICKER DELEGATE
-
 extension MenuViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {

@@ -21,6 +21,7 @@ final class SuggestionsCollectionViewCell: UICollectionViewCell {
         
         imageView.image = image
         
+        setConfigurations()
         configureAppearance()
         setupSubviews()
         constraintSubviews()
@@ -29,6 +30,11 @@ final class SuggestionsCollectionViewCell: UICollectionViewCell {
 }
 
 extension SuggestionsCollectionViewCell {
+    
+    private func setConfigurations() {
+    
+    }
+    
     private func configureAppearance() {
         layer.cornerRadius = 4
         clipsToBounds = true

@@ -8,5 +8,5 @@
 import Foundation
 
 enum NavBarButtonType {
-    case options
+    case options, info, download, upload
 }

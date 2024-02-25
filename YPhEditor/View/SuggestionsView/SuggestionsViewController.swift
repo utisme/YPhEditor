@@ -54,8 +54,8 @@ final class SuggestionsViewController: BaseViewController {
 
 extension SuggestionsViewController {
     
-    override func configure() {
-        super.configure()
+    override func setConfigurations() {
+        super.setConfigurations()
         
         subscribeToViewModel()
         

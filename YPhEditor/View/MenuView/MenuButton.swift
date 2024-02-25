@@ -13,6 +13,7 @@ class MenuButton: BaseButton {
     convenience init() {
         self.init(frame: .zero)
         
+        setConfigurations()
         configureAppearance()
         setupSubviews()
         constraintSubviews()
@@ -20,7 +21,7 @@ class MenuButton: BaseButton {
         addAnimation()
     }
     
-    let label: UILabel = {
+    private let label: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
         label.textColor = Resources.Colors.elementGray
@@ -34,15 +35,20 @@ class MenuButton: BaseButton {
 }
 
 extension MenuButton {
-    func configureAppearance() {
+    
+    private func setConfigurations() {
+        
+    }
+    
+    private func configureAppearance() {
         backgroundColor = Resources.Colors.element
     }
     
-    func setupSubviews() {
+    private func setupSubviews() {
         addSubviews(label)
     }
     
-    func constraintSubviews() {
+    private func constraintSubviews() {
         label.snp.makeConstraints { make in
             make.verticalEdges.equalToSuperview().inset(13)
             make.centerX.equalToSuperview()

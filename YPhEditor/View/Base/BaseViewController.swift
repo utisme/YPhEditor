@@ -14,36 +14,56 @@ class BaseViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        configure()
+        setConfigurations()
         configureAppearance()
         setupSubviews()
         constraintSubviews()
     }
     
     func addNavBarButton(ofType type: NavBarButtonType, disposedBy disposeBag: DisposeBag, completion: @escaping ()->Void) {
+        let button: UIBarButtonItem
+        
         switch type {
             
         case .options:
-            let button = UIBarButtonItem(image: .init(systemName: "ellipsis.circle.fill"), 
-                                         style: .plain,
-                                         target: nil,
-                                         action: nil)
-            
-            button.rx
-                .tap
-                .bind(onNext: completion)
-                .disposed(by: disposeBag)
-            
-            button.tintColor = .gray
-            navigationItem.rightBarButtonItems?.append(button)
-        }  
+            button = UIBarButtonItem(
+                image: Resources.Images.NavBar.options,
+                style: .plain,
+                target: nil,
+                action: nil)
+        case .info:
+            button = UIBarButtonItem(
+                image: Resources.Images.NavBar.info,
+                style: .plain,
+                target: nil,
+                action: nil)
+        case .download:
+            button = UIBarButtonItem(
+                image: Resources.Images.NavBar.download,
+                style: .plain,
+                target: nil,
+                action: nil)
+        case .upload:
+            button = UIBarButtonItem(
+                image: Resources.Images.NavBar.upload,
+                style: .plain,
+                target: nil,
+                action: nil)
+        }
+        
+        button.tintColor = .gray
+        navigationItem.rightBarButtonItems?.append(button)
+        button.rx
+            .tap
+            .bind(onNext: completion)
+            .disposed(by: disposeBag)
     }
 }
 
 
 @objc extension BaseViewController {
     
-    func configure() {
+    func setConfigurations() {
         navigationItem.rightBarButtonItems = []
     }
     
