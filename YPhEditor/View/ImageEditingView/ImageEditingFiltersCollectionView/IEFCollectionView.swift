@@ -23,11 +23,7 @@ final class IEFCollectionView: BaseView {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        dataSource = viewModel.getDataSource(for: collectionView)
-        var snapshot = NSDiffableDataSourceSnapshot<Int, Int>()
-        snapshot.appendSections([0])
-        snapshot.appendItems([0, 10, 20, 30, 40, 50 , 60, 70, 80, 90, -10, -20])
-        dataSource.apply(snapshot, animatingDifferences: true)
+        viewModel.setupDataSource(for: collectionView)
     }
 }
 
@@ -63,8 +59,14 @@ extension IEFCollectionView {
 extension IEFCollectionView: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
+        guard let cell = collectionView.cellForItem(at: indexPath) as? IEFCollectionViewCell
+        else { return }         //TODO: -handle error
+        
         let targetItem = indexPath.item
         collectionView.scrollToItem(at: IndexPath(item: targetItem, section: 0), at: .centeredHorizontally, animated: true)
+        
+        viewModel.setCurrentFilter(as: targetItem)
+        viewModel.setCellConfigurations(for: cell)
     }
 }
 
@@ -72,9 +74,12 @@ extension IEFCollectionView: UIScrollViewDelegate {
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         
-        guard let collectionViewFlowLayout = collectionView.collectionViewLayout as? IEFCollectionViewLayout
-        else { return }
+        guard let collectionViewFlowLayout = collectionView.collectionViewLayout as? IEFCollectionViewLayout,
+              let currentItemIndex = collectionViewFlowLayout.currentItemIndex,
+              let cell = collectionView.cellForItem(at: IndexPath(item: Int(currentItemIndex), section: 0)) as? IEFCollectionViewCell
+        else { return }             // TODO: - handle error
         
-        print("current cell index: ", collectionViewFlowLayout.currentItemIndex)
+        viewModel.setCurrentFilter(as: Int(currentItemIndex))
+        viewModel.setCellConfigurations(for: cell)
     }
 }

@@ -7,9 +7,16 @@
 
 import Foundation
 import CoreImage
+import RxRelay
 
-protocol Filter {
-    var filter: CIFilter! { get }
+protocol FilterProtocol {
     
-    func apply(for image: CIImage) -> CIImage
+    var filterName: String { get }
+    
+    var maxSliderValue: CGFloat { get }
+    var minSliderValue: CGFloat { get }
+    
+    var valueObservable: PublishRelay<CGFloat>? { get }
+    
+    func applyFilter(with value: CGFloat)
 }

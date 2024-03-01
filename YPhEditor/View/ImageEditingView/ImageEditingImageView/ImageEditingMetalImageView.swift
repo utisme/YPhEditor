@@ -48,15 +48,15 @@ extension ImageEditingMetalImageView: MTKViewDelegate {
     func mtkView(_ view: MTKView, drawableSizeWillChange size: CGSize) { }
     
     func draw(in view: MTKView) {
-        
         guard let view = view as? MetalImageView,
               let currentDrawable = view.currentDrawable,
-              let sourceTexture = view.sourceTexture,
               let commandBuffer = view.commandQueue.makeCommandBuffer(),
-              let image = CIImage(mtlTexture: sourceTexture)
+              let image = CurrentImageManager.shared.currentCIImage,
+              let orientation = CurrentImageManager.shared.currentUIImage?.imageOrientation
         else { return }
         
-        let scaledToViewImage = viewModel.prepareImage(image, to: view)
+        let scaledToViewImage = viewModel.prepareImage(image.oriented(CGImagePropertyOrientation(orientation)),
+                                                       to: view)
         
         let bounds = CGRect(x: 0, y: 0, width: view.drawableSize.width, height: view.drawableSize.height)
         view.context.render(scaledToViewImage,

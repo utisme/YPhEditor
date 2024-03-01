@@ -15,7 +15,7 @@ final class ImageEditingViewController: BaseViewController {
     private let viewModel: ImageEditingViewModelProtocol = ImageEditingViewModel()                  // viewModel должна порождать другую viewModel? (но это неудобно)
     
     private let toolBar = ImageEditingToolBar()
-    private let slider = ImageEditingSlider(minValue: -100, maxValue: 100, initValue: 0)            // в дальнейшем поставить слайдер! и назначать каждый раз новый в конфигураторе, который будем вызывать при скроллинге коллекции
+    private var slider = ImageEditingSlider()            // в дальнейшем поставить слайдер! и назначать каждый раз новый в конфигураторе, который будем вызывать при скроллинге коллекции
     private let collectionView = IEFCollectionView()
     private let metalImageView = ImageEditingMetalImageView()
     
@@ -27,11 +27,12 @@ final class ImageEditingViewController: BaseViewController {
         addNavBarButton(ofType: .info, disposedBy: viewModel.disposeBag, completion: {print("info")})
         addNavBarButton(ofType: .download, disposedBy: viewModel.disposeBag, completion: {print("download")})
         addNavBarButton(ofType: .upload, disposedBy: viewModel.disposeBag, completion: {print("upload")})
-        
-        slider.addTarget(nil, action: #selector(sliderAction), for: .valueChanged)
     }
     
-    @objc func sliderAction(){
+    func configureSlider() {
+        viewModel.subscribeSliderToCollection { [unowned self] maxValue, minValue, initValue in
+            slider.configure(minValue: minValue, maxValue: maxValue, initValue: initValue)
+        }
         
     }
 }
@@ -41,7 +42,7 @@ extension ImageEditingViewController {
     override func setConfigurations() {
         super.setConfigurations()
         
-        
+        configureSlider()
         configureButtons()
         navigationController?.isToolbarHidden = false
     }
@@ -58,8 +59,8 @@ extension ImageEditingViewController {
         
         view.addSubviews(
             toolBar,
-            slider,
             collectionView,
+            slider,
             metalImageView)
     }
     

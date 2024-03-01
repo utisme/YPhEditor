@@ -11,20 +11,18 @@ import CoreImage
 
 final class ImageEditingMetalImageViewModel: ImageEditingMetalImageViewModelProtocol {
     
-    func getCurrentImage() -> UIImage? {
-
-        guard let image = CurrentImageManager.shared.currentImage
+    func getCurrentImage() -> CGImage? {
+        
+        guard let image = CurrentImageManager.shared.currentCGImage
         else {
-            print("get current image error")
-            return Resources.Images.imageError
+            return Resources.Images.imageError.cgImage
         }
-        print("current image")
-        return UIImage(ciImage: image)
+        return image
     }
     
     func prepareImage(_ image: CIImage, to view: MetalImageView) -> CIImage {
         
-        let scaledToViewImage = ImageProcessingManager.shared.fitImage(image, to: view, minScale: true)
+        let scaledToViewImage = ImageProcessingManager.Transforms.fitImage(image, to: view, minScale: true)
 
         return scaledToViewImage
     }

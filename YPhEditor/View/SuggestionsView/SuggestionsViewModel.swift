@@ -49,8 +49,8 @@ final class SuggestionsViewModel: SuggestionsViewModelProtocol {
     }
     
     func selectCell(withIndexPath indexPath: IndexPath) {
-        let ciImage = NetworkManager.shared.images[indexPath.row].ciImage
-        CurrentImageManager.shared.currentImage = ciImage
+        
+        CurrentImageManager.shared.currentUIImage = NetworkManager.shared.images[indexPath.row]
         vcWillDisappearObservable.onNext(true)
     }
 }

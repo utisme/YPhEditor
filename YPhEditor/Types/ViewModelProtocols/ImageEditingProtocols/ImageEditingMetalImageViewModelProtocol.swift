@@ -11,6 +11,6 @@ import UIKit
 
 protocol ImageEditingMetalImageViewModelProtocol {
     
-    func getCurrentImage() -> UIImage?
+    func getCurrentImage() -> CGImage?
     func prepareImage(_ image: CIImage, to view: MetalImageView) -> CIImage
 }

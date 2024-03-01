@@ -26,7 +26,7 @@ final class IEFCollectionViewCellProgressView: BaseView {
         
         layer.sublayers?.removeAll()
         addCircleSublayer(color: Resources.Colors.elementYellowSelected?.cgColor)
-        addCircleSublayer(filledTo: abs(percent), color: Resources.Colors.elementYellow?.cgColor, clockwise: false)
+        addCircleSublayer(filledTo: abs(percent), color: Resources.Colors.elementYellow?.cgColor, clockwise: clockwise)
     }
     
     private func addCircleSublayer(filledTo percent: CGFloat? = nil,
@@ -35,12 +35,14 @@ final class IEFCollectionViewCellProgressView: BaseView {
         
         let center = CGPoint(x: bounds.midX, y: bounds.midY)
         let radius = bounds.width / 2
+        let startAngle = 3 * CGFloat.pi / 2
+        let endAngle = clockwise ? (7 * CGFloat.pi / 2) : (-CGFloat.pi / 2)
         
         let circlePath = UIBezierPath(
             arcCenter: center,
             radius: radius,
-            startAngle: 3 * CGFloat.pi / 2,
-            endAngle: 7 * CGFloat.pi / 2,
+            startAngle: startAngle,
+            endAngle: endAngle,
             clockwise: clockwise)
         
         let circleLayer = CAShapeLayer()

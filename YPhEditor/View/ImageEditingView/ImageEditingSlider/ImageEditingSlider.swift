@@ -12,6 +12,8 @@ import RxSwift
 
 final class ImageEditingSlider: UIControl {
     
+    private let viewModel: ImageEditingSliderViewModelProtocol = ImageEditingSliderViewModel()
+    
     private let thumb = IESThumb()
     private let initValueMarker = IESInitValueMarker()
     
@@ -25,7 +27,7 @@ final class ImageEditingSlider: UIControl {
             updateThumbPosition()
             thumbCenter = correctThumbPositionIfNeeded(thumbCenter, withCenter: false)
             generateVibrationIfNeeded()
-            sendActions(for: .valueChanged)
+            viewModel.valueChanged(value)
         }
     }
     private var firstPosition: CGFloat = 0
@@ -62,21 +64,15 @@ final class ImageEditingSlider: UIControl {
         }
     }
     
-    convenience init(minValue: CGFloat, maxValue: CGFloat, initValue: CGFloat) {
-        self.init(frame: .zero)
+    func configure(minValue: CGFloat, maxValue: CGFloat, initValue: CGFloat) {
         
         self.minValue = minValue
         self.maxValue = maxValue
         self.initValue = initValue
         
-        configure()
+        setConfigurations()
         configureAppearance()
         setupSubviews()
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        
         constraintSubviews()
         value = initValue
     }
@@ -181,7 +177,7 @@ final class ImageEditingSlider: UIControl {
 // MARK: - CONFIGURATIONS
 extension ImageEditingSlider {
     
-    private func configure() {
+    private func setConfigurations() {
         
         addTarget(nil, action: #selector(grabFirstPosition), for: .touchDown)
         addTarget(nil, action: #selector(calculateNewPosition), for: [.touchDragInside, .touchDragEnter])

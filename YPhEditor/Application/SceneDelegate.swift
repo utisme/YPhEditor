@@ -17,8 +17,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         
-        let sceneRootViewController = NavigationController(rootViewController: MenuViewController())
-//        let sceneRootViewController = NavigationController(rootViewController: ImageEditingViewController())
+//        let sceneRootViewController = NavigationController(rootViewController: MenuViewController())
+        let sceneRootViewController = NavigationController(rootViewController: ImageEditingViewController())
         
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
@@ -56,7 +56,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // to restore the scene back to its current state.
 
         // Save changes in the application's managed object context when the application transitions to the background.
-        (UIApplication.shared.delegate as? AppDelegate)?.saveContext()
+        CoreDataManager.shared.update { update in
+            update.currentImage = CurrentImageManager.shared.currentUIImage?.pngData()
+        }
     }
 
 

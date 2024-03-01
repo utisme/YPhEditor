@@ -7,10 +7,14 @@
 
 import Foundation
 import UIKit
+import RxSwift
 
 final class IEFCollectionViewModel: IEFCollectionViewModelProtocol {
+    
+    let disposeBag = DisposeBag()
+    var dataSource: UICollectionViewDiffableDataSource<Int, Int>!
        
-    func getDataSource(for collectionView: UICollectionView) -> UICollectionViewDiffableDataSource<Int, Int> {
+    private func getDataSource(for collectionView: UICollectionView) -> UICollectionViewDiffableDataSource<Int, Int> {
         
         UICollectionViewDiffableDataSource<Int, Int>(collectionView: collectionView) { collectionView, indexPath, item in
             
@@ -18,8 +22,35 @@ final class IEFCollectionViewModel: IEFCollectionViewModelProtocol {
                     as? IEFCollectionViewCell
             else { return IEFCollectionViewCell() }
             
-            cell.configure(withValue: item)
+            cell.configure(withImage: Resources.Images.ImageEditing.Filters.exposure)
             return cell
         }
+    }
+    
+    func setupDataSource(for collectionView: UICollectionView) {
+        
+        dataSource = getDataSource(for: collectionView)
+        
+        var snapshot = NSDiffableDataSourceSnapshot<Int, Int>()
+        snapshot.appendSections([0])
+        snapshot.appendItems(ImageProcessingManager.Filter.allCases.map({ filter in
+            filter.rawValue
+        }))
+        dataSource.apply(snapshot, animatingDifferences: true)
+    }
+    
+    func setCurrentFilter(as rawValue: Int) {
+        
+        ImageProcessingManager.shared.setFilter(with: rawValue)
+    }
+    
+    func setCellConfigurations(for cell: IEFCollectionViewCell) {
+        
+        ImageProcessingManager.shared.currentFilter?.valueObservable?
+            .asObservable()
+            .subscribe { value in
+                cell.configure(withValue: value)
+            }
+            .disposed(by: disposeBag)
     }
 }

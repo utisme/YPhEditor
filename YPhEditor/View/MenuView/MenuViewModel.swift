@@ -32,7 +32,8 @@ final class MenuViewModel: MenuViewModelProtocol {
     }
     
     func pickImage(_ image: UIImage?) {
-        CurrentImageManager.shared.currentImage = image?.ciImage
+        
+        CurrentImageManager.shared.currentUIImage = image
         needShowImageProcessingVC.onNext(true)
     }
 }

@@ -27,9 +27,9 @@ class MetalImageView: MTKView {
         loader = MTKTextureLoader(device: device)
     }
     
-    func setTexture(from image: UIImage?) {
+    func setTexture(from cgImage: CGImage?) {
         
-        guard let cgImage = image?.cgImage else { return }           // TODO: HANDLE ERROR
-        sourceTexture = try? loader.newTexture(cgImage: cgImage, options: [MTKTextureLoader.Option.origin: MTKTextureLoader.Origin.flippedVertically])
+        guard let cgImage else { return }
+        sourceTexture = try? loader.newTexture(cgImage: cgImage, options: [MTKTextureLoader.Option.origin: MTKTextureLoader.Origin.flippedVertically])          // TODO: - handle error
     }
 }

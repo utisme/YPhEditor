@@ -5,6 +5,8 @@
 //  Created by Эдгар Кусков on 12.02.24.
 //
 
+// TODO: - сделать проверку на наличие currentImage в core data, и расширять алерт если проверка успешна
+
 import UIKit
 
 final class MenuImagePickerAlert: UIAlertController {

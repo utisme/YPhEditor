@@ -14,7 +14,7 @@ final class MenuBackgroundView: BaseView {
     
     private let backgroundImage: MetalImageView = {
         let metalImageView = MetalImageView(frame: .zero)
-        metalImageView.setTexture(from: Resources.Images.Menu.background)
+        metalImageView.setTexture(from: Resources.Images.Menu.background.cgImage)
         return metalImageView
     }()
 }

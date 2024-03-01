@@ -32,7 +32,7 @@ struct Resources {
 // MARK: - IMAGES
     enum Images {
         
-        static let imageError = UIImage(named: "noImage")
+        static let imageError: UIImage! = UIImage(named: "noImage")
         
         enum NavBar {
             
@@ -44,7 +44,7 @@ struct Resources {
         
         enum Menu {
             
-            static let background = UIImage(named: "menuBackground")
+            static let background: UIImage! = UIImage(named: "menuBackground")
             static let sticker = UIImage(named: "sticker")
             static let logo = UIImage(named: "logo")
         }

@@ -11,4 +11,6 @@ import RxSwift
 protocol ImageEditingViewModelProtocol {
     
     var disposeBag: DisposeBag { get }
+    
+    func subscribeSliderToCollection(completion: @escaping (_ maxValue: CGFloat, _ minValue: CGFloat, _ initValue: CGFloat)->())
 }

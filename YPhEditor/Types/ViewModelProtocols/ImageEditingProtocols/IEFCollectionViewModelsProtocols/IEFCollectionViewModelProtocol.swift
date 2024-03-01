@@ -10,5 +10,7 @@ import UIKit
 
 protocol IEFCollectionViewModelProtocol {
     
-    func getDataSource(for collectionView: UICollectionView) -> UICollectionViewDiffableDataSource<Int, Int>
+    func setupDataSource(for collectionView: UICollectionView)
+    func setCurrentFilter(as rawValue: Int)
+    func setCellConfigurations(for cell: IEFCollectionViewCell)
 }
