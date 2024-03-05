@@ -15,10 +15,12 @@ final class CurrentImageManager {
     private init() {
         
         guard let imageProcessingData = CoreDataManager.shared.fetch(),
-              let imageData = imageProcessingData.currentImage
+              let imageData = imageProcessingData.currentImage,
+              let uiImage = UIImage(data: imageData)
         else { return }                                                                 // TODO: - handle error
         
-        currentUIImage = UIImage(data: imageData)
+        currentUIImage = uiImage
+        currentCIImage = CIImage(image: uiImage)
     }
     
     var currentUIImage: UIImage? {
@@ -26,21 +28,15 @@ final class CurrentImageManager {
             
             guard let currentUIImage else { return }                            // TODO: - handle error
             
+            currentCIImage = CIImage(image: currentUIImage)
+            
             CoreDataManager.shared.update { update in
                 update.currentImage = currentUIImage.jpegData(compressionQuality: 0)
             }
         }
     }
     
-    var currentCIImage: CIImage? {                              // TODO: доделать перезапись в currentUIImage
-        get {
-            guard let currentUIImage,
-                  let ciImage = CIImage(image: currentUIImage)
-            else { return Resources.Images.imageError.ciImage}             // TODO: - HANDLE ERROR
-            
-            return ImageProcessingManager.shared.applyProcessingStack(for: ciImage)
-        }
-    }
+    var currentCIImage: CIImage?
     
     var currentCGImage: CGImage? {
         return currentUIImage?.cgImage

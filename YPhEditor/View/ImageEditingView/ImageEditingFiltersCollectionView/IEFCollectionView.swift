@@ -6,10 +6,12 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 final class IEFCollectionView: BaseView {
     
-    private let viewModel: IEFCollectionViewModelProtocol = IEFCollectionViewModel()
+    private let viewModel: IEFCollectionViewModelProtocol
     
     private let collectionViewLayout: UICollectionViewFlowLayout = {
         let collectionViewLayout = IEFCollectionViewLayout()
@@ -18,12 +20,20 @@ final class IEFCollectionView: BaseView {
     }()
     
     private var collectionView: UICollectionView!
-    private var dataSource: UICollectionViewDiffableDataSource<Int, Int>!
+    
+    init(viewModel: IEFCollectionViewModelProtocol) {
+        self.viewModel = viewModel
+        
+        super.init(frame: .zero)
+    }
+    
+    required init?(coder: NSCoder) { nil }
     
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        viewModel.setupDataSource(for: collectionView)
+        viewModel.prepareData(for: collectionView)
+        viewModel.collectionDidLoaded()
     }
 }
 
@@ -33,7 +43,6 @@ extension IEFCollectionView {
         
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout)
         collectionView.showsHorizontalScrollIndicator = false
-        collectionView.dataSource = dataSource
         collectionView.delegate = self
         collectionView.register(IEFCollectionViewCell.self, forCellWithReuseIdentifier: IEFCollectionViewCell.id)
     }
@@ -53,33 +62,25 @@ extension IEFCollectionView {
         collectionView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
+//        collectionView.rx.itemSelected.asDriver()
+//            .drive(onNext: { [weak self ] indexPath in
+//                
+//            }).disposed(by: )
     }
 }
 
 extension IEFCollectionView: UICollectionViewDelegate {
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
-        guard let cell = collectionView.cellForItem(at: indexPath) as? IEFCollectionViewCell
-        else { return }         //TODO: -handle error
-        
         let targetItem = indexPath.item
-        collectionView.scrollToItem(at: IndexPath(item: targetItem, section: 0), at: .centeredHorizontally, animated: true)
-        
-        viewModel.setCurrentFilter(as: targetItem)
-        viewModel.setCellConfigurations(for: cell)
+        collectionView.scrollToItem(at: IndexPath(item: targetItem, section: 0), at: .centeredHorizontally, animated: false)
+        viewModel.cellChanged()
     }
 }
 
 extension IEFCollectionView: UIScrollViewDelegate {
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        
-        guard let collectionViewFlowLayout = collectionView.collectionViewLayout as? IEFCollectionViewLayout,
-              let currentItemIndex = collectionViewFlowLayout.currentItemIndex,
-              let cell = collectionView.cellForItem(at: IndexPath(item: Int(currentItemIndex), section: 0)) as? IEFCollectionViewCell
-        else { return }             // TODO: - handle error
-        
-        viewModel.setCurrentFilter(as: Int(currentItemIndex))
-        viewModel.setCellConfigurations(for: cell)
+        viewModel.cellChanged()
     }
 }

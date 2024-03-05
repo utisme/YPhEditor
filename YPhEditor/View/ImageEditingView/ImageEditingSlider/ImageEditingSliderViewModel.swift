@@ -9,8 +9,15 @@ import Foundation
 
 final class ImageEditingSliderViewModel: ImageEditingSliderViewModelProtocol {
     
+    var superViewModel: ImageEditingViewModelProtocol?
+    
     func valueChanged(_ value: CGFloat) {
         
-        ImageProcessingManager.shared.currentFilter?.applyFilter(with: value)
+        superViewModel?.sliderValueChanged(value)
+    }
+    
+    func valueChangingDidFinish(with value: CGFloat) {
+        
+        superViewModel?.sliderValueChangingDidFinish(with: value)
     }
 }

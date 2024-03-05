@@ -9,7 +9,12 @@ import UIKit
 
 final class IEFCollectionViewLayout: UICollectionViewFlowLayout {
     
-    var currentItemIndex: CGFloat?
+    var currentItemIndex: Int? {
+        guard let collectionView else { return 0 }
+        let cellWithSpacing = itemSize.width + minimumInteritemSpacing
+        let cellIndex = (collectionView.contentInset.left + collectionView.contentOffset.x) / cellWithSpacing
+        return Int(cellIndex)
+    }
 
 // MARK: - Inset
     private var centerInset: UIEdgeInsets {
@@ -51,10 +56,8 @@ final class IEFCollectionViewLayout: UICollectionViewFlowLayout {
         let rightCenter = rightIndex * cellWithSpacing - collectionView.contentInset.left
         
         if abs(leftCenter - proposedContentOffset.x) < abs(rightCenter - proposedContentOffset.x) {
-            currentItemIndex = leftIndex
             return CGPoint(x: leftCenter, y: proposedContentOffset.y)
         } else {
-            currentItemIndex = rightIndex
             return CGPoint(x: rightCenter, y: proposedContentOffset.y)
         }
     }

@@ -9,5 +9,8 @@ import Foundation
 
 protocol ImageEditingSliderViewModelProtocol {
     
+    var superViewModel: ImageEditingViewModelProtocol? { get }
+    
     func valueChanged(_ value: CGFloat)
+    func valueChangingDidFinish(with value: CGFloat)
 }

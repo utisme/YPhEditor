@@ -7,6 +7,8 @@
 
 import UIKit
 import SnapKit
+import RxSwift
+import RxCocoa
 
 class MenuButton: BaseButton {
     
@@ -55,3 +57,10 @@ extension MenuButton {
         }
     }
 }
+
+//extension Reactive where Base == MenuButton {
+//    
+//    var menuButoonTapped: Driver<Void> {
+//        base.button.rx.tap.asDriver()
+//    }
+//}

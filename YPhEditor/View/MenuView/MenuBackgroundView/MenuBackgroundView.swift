@@ -23,7 +23,7 @@ extension MenuBackgroundView {
     
     override func setConfigurations() {
         super.setConfigurations()
-        
+//      TODO: lazy var
         backgroundImage.delegate = self
     }
     
@@ -32,7 +32,7 @@ extension MenuBackgroundView {
     }
     
     override func setupSubviews() {
-        super.setupSubviews()
+        super.setupSubviews()           // TODO: подумать нужен ли супер
         
         addSubviews(backgroundImage)
     }

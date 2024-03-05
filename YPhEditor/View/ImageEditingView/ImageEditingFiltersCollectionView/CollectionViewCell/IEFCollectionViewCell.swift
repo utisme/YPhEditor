@@ -11,8 +11,6 @@ final class IEFCollectionViewCell: UICollectionViewCell {
     
     static let id = "IEFCollectionViewCell"
     
-    let viewModel: IEFCollectionViewCellViewModelProtocol = IEFCollectionViewCellViewModel()
-    
     private let progressView = IEFCollectionViewCellProgressView()
     
     private let imageView: UIImageView = {
@@ -29,25 +27,25 @@ final class IEFCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    func configure(withImage image: UIImage?) {
-        imageView.image = image
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         
         setConfigurations()
-        
-        progressView.configure()
-        setImage()
+        configureAppearance()
+        setupSubviews()
+        constraintSubviews()
     }
     
-    func configure(withValue value: CGFloat) {
-        
-        setConfigurations()
+    required init?(coder: NSCoder) { nil }
+    
+    func configure(withValue value: CGFloat, image: UIImage? = nil) {
         
         let percent = value / 100
         switch percent {
         case 0:
             
-            progressView.configure()
             setImage()
+            progressView.configure()
         case (..<0):
             
             progressView.configure(filledTo: percent, clockwise: false)
@@ -57,6 +55,9 @@ final class IEFCollectionViewCell: UICollectionViewCell {
             progressView.configure(filledTo: percent)
             setValue(Int(value))
         }
+        
+        guard let image else { return }
+        imageView.image = image
     }
     
     private func setImage() {
@@ -78,10 +79,6 @@ extension IEFCollectionViewCell {
     
     private func setConfigurations() {
         
-        configureAppearance()
-        setupSubviews()
-        constraintSubviews()
-        layoutIfNeeded()
     }
     
     private func configureAppearance() {

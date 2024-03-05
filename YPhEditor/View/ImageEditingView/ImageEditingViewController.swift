@@ -12,28 +12,34 @@ import MetalKit
 
 final class ImageEditingViewController: BaseViewController {
     
-    private let viewModel: ImageEditingViewModelProtocol = ImageEditingViewModel()                  // viewModel должна порождать другую viewModel? (но это неудобно)
+    private let viewModel: ImageEditingViewModelProtocol
     
-    private let toolBar = ImageEditingToolBar()
-    private var slider = ImageEditingSlider()            // в дальнейшем поставить слайдер! и назначать каждый раз новый в конфигураторе, который будем вызывать при скроллинге коллекции
-    private let collectionView = IEFCollectionView()
-    private let metalImageView = ImageEditingMetalImageView()
+    private let toolBar: ImageEditingToolBar
+    private var slider: ImageEditingSlider
+    private let collectionView: IEFCollectionView
+    private let metalImageView: ImageEditingMetalImageView
     
-
-// MARK: - CONFIGURATION
+    
+    // MARK: - CONFIGURATION
+    init(viewModel: ImageEditingViewModelProtocol) {
+        self.viewModel = viewModel
+        
+        self.toolBar = ImageEditingToolBar(viewModel: viewModel.viewModelForToolbar)
+        self.slider = ImageEditingSlider(viewModel: viewModel.viewModelForSlider)
+        self.collectionView = IEFCollectionView(viewModel: viewModel.viewModelForCollection)
+        self.metalImageView = ImageEditingMetalImageView(viewModel: viewModel.viewModelForMetalImage)
+        
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) { nil }
+    
     func configureButtons() {
         
         addNavBarButton(ofType: .options, disposedBy: viewModel.disposeBag, completion: { print("options") })
-        addNavBarButton(ofType: .info, disposedBy: viewModel.disposeBag, completion: {print("info")})
-        addNavBarButton(ofType: .download, disposedBy: viewModel.disposeBag, completion: {print("download")})
-        addNavBarButton(ofType: .upload, disposedBy: viewModel.disposeBag, completion: {print("upload")})
-    }
-    
-    func configureSlider() {
-        viewModel.subscribeSliderToCollection { [unowned self] maxValue, minValue, initValue in
-            slider.configure(minValue: minValue, maxValue: maxValue, initValue: initValue)
-        }
-        
+        addNavBarButton(ofType: .info, disposedBy: viewModel.disposeBag, completion: { print("info") })
+        addNavBarButton(ofType: .download, disposedBy: viewModel.disposeBag, completion: { print("download") })
+        addNavBarButton(ofType: .upload, disposedBy: viewModel.disposeBag, completion: { print("upload") })
     }
 }
 
@@ -42,9 +48,8 @@ extension ImageEditingViewController {
     override func setConfigurations() {
         super.setConfigurations()
         
-        configureSlider()
+        viewModel.setViewsConfigurations(slider: slider)
         configureButtons()
-        navigationController?.isToolbarHidden = false
     }
   
 // MARK: - APPEARANCE

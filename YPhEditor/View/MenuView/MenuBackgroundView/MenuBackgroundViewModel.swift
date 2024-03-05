@@ -18,10 +18,10 @@ final class MenuBackgroundViewModel: MenuBackgroundViewModelProtocol {
                                   y: view.drawableSize.height / 3,
                                   width: view.drawableSize.width / 6 * 4,
                                   height: view.drawableSize.height / 2)
-        var monoArea = scaledToViewImage.cropped(to: monoAreaRect)
+        let monoArea = scaledToViewImage.cropped(to: monoAreaRect)
         
-        ImageProcessingManager.shared.setEffect(effect: .mono)
-        monoArea = ImageProcessingManager.shared.applyEffect(for: monoArea)
+        let filter = ImageProcessingManager.Adjust.Effect.getEffect(.mono)
+        guard let monoArea = filter().apply(for: monoArea) else { return scaledToViewImage }      //TODO: handle error
         
         return monoArea.composited(over: scaledToViewImage)
     }

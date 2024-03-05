@@ -11,21 +11,25 @@ import RxSwift
 
 final class MenuViewModel: MenuViewModelProtocol {
     
-    let needShowImageProcessingVC = PublishSubject<Bool>()
-    let disposeBag = DisposeBag()
-    
-    func getSuggestionsViewModel() -> SuggestionsViewModelProtocol {
+    var viewModelForSuggestionsView: SuggestionsViewModelProtocol {
         
         let suggestionsViewModel = SuggestionsViewModel()
         suggestionsViewModel.vcWillDisappearObservable
             .asObservable()
-            .subscribe { [weak self] _ in
+            .asDriver(onErrorJustReturn: true)
+            .drive { [weak self] _ in
                 self?.needShowImageProcessingVC.onNext(true)
             }
             .disposed(by: disposeBag)
         
         return suggestionsViewModel
     }
+    var viewModelForIEView: ImageEditingViewModel {
+        ImageEditingViewModel()
+    }
+    
+    let needShowImageProcessingVC = PublishSubject<Bool>()
+    let disposeBag = DisposeBag()
     
     func navBarButtonAction() {
         print("nav button action")

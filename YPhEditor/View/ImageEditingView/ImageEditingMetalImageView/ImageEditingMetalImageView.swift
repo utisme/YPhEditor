@@ -10,9 +10,17 @@ import MetalKit
 
 final class ImageEditingMetalImageView: BaseView {
     
-    private let viewModel: ImageEditingMetalImageViewModelProtocol = ImageEditingMetalImageViewModel()
+    private let viewModel: ImageEditingMetalImageViewModelProtocol
     
     private let backgroundImage = MetalImageView()
+    
+    init(viewModel: ImageEditingMetalImageViewModelProtocol) {
+        self.viewModel = viewModel
+        
+        super.init(frame: .zero)
+    }
+    
+    required init?(coder: NSCoder) { nil }
 }
 
 extension ImageEditingMetalImageView {

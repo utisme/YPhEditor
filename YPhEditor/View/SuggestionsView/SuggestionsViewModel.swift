@@ -22,8 +22,9 @@ final class SuggestionsViewModel: SuggestionsViewModelProtocol {
         
         NetworkManager.shared.imagesObservable
             .asObservable()
-            .subscribe { [weak self] images in
-                guard let images = images.element else { return }
+            .asDriver(onErrorJustReturn: [])
+            .drive { [weak self] images in
+//                guard let images = images.element else { return }
                 self?.images = images
                 self?.imagesObservable.onNext(true)
         }

@@ -10,7 +10,10 @@ import UIKit
 
 protocol IEFCollectionViewModelProtocol {
     
-    func setupDataSource(for collectionView: UICollectionView)
-    func setCurrentFilter(as rawValue: Int)
-    func setCellConfigurations(for cell: IEFCollectionViewCell)
+    var currentCell: (IEFCollectionViewCell, Int) { get }
+    func prepareData(for collectionView: UICollectionView)
+    func configureForFilters()
+    func configureForEffects()
+    func collectionDidLoaded()
+    func cellChanged()
 }

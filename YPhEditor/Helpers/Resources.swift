@@ -59,14 +59,15 @@ struct Resources {
             enum ToolBar {
                 
                 static let backward = UIImage(systemName: "arrowshape.turn.up.backward")
-                static let adjust = UIImage(systemName: "dial.low.fill")
-                static let filters = UIImage(systemName: "camera.filters")
+                static let filters = UIImage(systemName: "dial.low.fill")
+                static let effects = UIImage(systemName: "camera.filters")
                 static let forward = UIImage(systemName: "arrowshape.turn.up.forward")
             }
             
             enum Filters {
                 
                 static let exposure = UIImage(systemName: "plusminus.circle")
+                static let gamma = UIImage(systemName: "sun.max")
             }
         }
     }

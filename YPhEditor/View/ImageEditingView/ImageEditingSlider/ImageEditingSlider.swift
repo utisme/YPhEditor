@@ -12,14 +12,14 @@ import RxSwift
 
 final class ImageEditingSlider: UIControl {
     
-    private let viewModel: ImageEditingSliderViewModelProtocol = ImageEditingSliderViewModel()
+    private let viewModel: ImageEditingSliderViewModelProtocol
     
     private let thumb = IESThumb()
     private let initValueMarker = IESInitValueMarker()
     
     private let selectionFeetbackGenerator = UISelectionFeedbackGenerator()
     
-    private let resistanceCoef: CGFloat = 0.01
+    private let resistanceCoef: CGFloat = 0.04
     private let inertionCoef: CGFloat = 0.001
     
     private var thumbCenter: CGFloat = 0 {
@@ -63,6 +63,14 @@ final class ImageEditingSlider: UIControl {
             }
         }
     }
+    
+    init(viewModel: ImageEditingSliderViewModelProtocol) {
+        self.viewModel = viewModel
+        
+        super.init(frame: .zero)
+    }
+    
+    required init?(coder: NSCoder) { nil }
     
     func configure(minValue: CGFloat, maxValue: CGFloat, initValue: CGFloat) {
         
@@ -132,6 +140,7 @@ final class ImageEditingSlider: UIControl {
         let _ = Timer.scheduledTimer(withTimeInterval: 0.006, repeats: true) { [weak self] timer in
             guard let self else { return }
             if self.thumbCenter == self.correctThumbPositionIfNeeded(self.thumbCenter, withCenter: true) {
+                viewModel.valueChangingDidFinish(with: value)
                 timer.invalidate()
             } else {
                 self.thumbCenter = self.correctThumbPositionIfNeeded(self.thumbCenter, withCenter: true)

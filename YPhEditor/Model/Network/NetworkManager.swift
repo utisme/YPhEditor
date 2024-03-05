@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import RxSwift
+import RxRelay
 import Alamofire
 import UIKit
 
@@ -19,7 +19,7 @@ final class NetworkManager {
     private let params = "client_id=AQCJXXYQB-A_OIAAeAZ5EKccv7jT0RmemfYTUgthj8M"
     private let requestParams = ["order_by":"popular"]
     
-    let imagesObservable = PublishSubject<[UIImage]>()
+    let imagesObservable = PublishRelay<[UIImage]>()
     var images: [UIImage] = []
     
     func prepareImages() {
@@ -28,14 +28,14 @@ final class NetworkManager {
         else {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) { [weak self] in                // TODO: - костыль
                 guard let self else { return }
-                imagesObservable.onNext(images)
+                imagesObservable.accept(images)
             }
             return
         }
         
         getImages { [weak self] in
             guard let self else { return }
-            self.imagesObservable.onNext(self.images)
+            self.imagesObservable.accept(self.images)
         }
     }
     

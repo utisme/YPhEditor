@@ -11,7 +11,7 @@ import RxSwift
 final class SuggestionsViewController: BaseViewController {
     
 // MARK: PROPERTIES
-    var viewModel: SuggestionsViewModelProtocol?
+    private let viewModel: SuggestionsViewModelProtocol
     
     let blurView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
 
@@ -38,11 +38,19 @@ final class SuggestionsViewController: BaseViewController {
     }()
     
 // MARK: - CONFIGURATIONS
+    init(viewModel: SuggestionsViewModelProtocol) {
+        self.viewModel = viewModel
+        
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) { nil }
+    
     func subscribeToViewModel() {
-        guard let viewModel else { return }
         viewModel.imagesObservable
             .asObservable()
-            .subscribe(onNext: { [weak self] _ in
+            .asDriver(onErrorJustReturn: true)
+            .drive(onNext: { [weak self] _ in
                 
                 self?.activityIndicator.stopAnimating()
                 self?.collectionView.reloadData()
@@ -107,7 +115,7 @@ extension SuggestionsViewController: UICollectionViewDelegate, UICollectionViewD
     
     // NUMBER OF ITEMS
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        viewModel?.getNumberOfCells() ?? 0
+        viewModel.getNumberOfCells()
     }
     
     // CELL FOR ROW
@@ -116,19 +124,19 @@ extension SuggestionsViewController: UICollectionViewDelegate, UICollectionViewD
                 as? SuggestionsCollectionViewCell
         else { return UICollectionViewCell() }
         
-        let image = viewModel?.getImageForCell(at: indexPath)
+        let image = viewModel.getImageForCell(at: indexPath)
         cell.configure(withImage: image)
         return cell
     }
     
     // SIZE FOR ITEM
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        viewModel?.getSizeForCell(at: collectionView) ?? CGSize()
+        viewModel.getSizeForCell(at: collectionView)
     }
     
     // DID SELECT ITEM
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        viewModel?.selectCell(withIndexPath: indexPath)
+        viewModel.selectCell(withIndexPath: indexPath)
         dismiss(animated: true)
     }
 }

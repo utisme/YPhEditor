@@ -12,9 +12,9 @@ import RxCocoa
 final class MenuViewController: BaseViewController {
     
 // MARK: PROPERTIES
-    private var viewModel: MenuViewModelProtocol = MenuViewModel()
+    private let viewModel: MenuViewModelProtocol = MenuViewModel()
     
-    private let backgroundImage = MenuBackgroundView()
+    private var backgroundImage = MenuBackgroundView()
     
     private let stickerView: UIImageView = {
         let stickerView = UIImageView()
@@ -59,8 +59,9 @@ final class MenuViewController: BaseViewController {
     private func subscribeToViewModel() {
         viewModel.needShowImageProcessingVC
             .asObservable()
-            .subscribe(onNext: { [unowned self] _ in
-                let destVC = ImageEditingViewController()
+            .asDriver(onErrorJustReturn: true)
+            .drive(onNext: { [unowned self] _ in
+                let destVC = ImageEditingViewController(viewModel: viewModel.viewModelForIEView)
                 show(destVC, sender: nil)
             })
             .disposed(by: viewModel.disposeBag)
@@ -74,10 +75,14 @@ final class MenuViewController: BaseViewController {
         
         suggestionsButton.setCompletion(disposedBy: viewModel.disposeBag) { [unowned self] in
             
-            let suggestionsVC = SuggestionsViewController()
-            suggestionsVC.viewModel = viewModel.getSuggestionsViewModel()
+            let suggestionsVC = SuggestionsViewController(viewModel: viewModel.viewModelForSuggestionsView)
             present(suggestionsVC, animated: true)
         }
+        
+//        suggestionsButton.rx.menuButoonTapped.asDriver()
+//            .drive(onNext: {
+//                
+//            }).disposed(by: <#T##DisposeBag#>)
         
         galleryButton.setCompletion(disposedBy: viewModel.disposeBag) { [unowned self] in
             
@@ -85,7 +90,7 @@ final class MenuViewController: BaseViewController {
             let imagePickerAlert = MenuImagePickerAlert { [unowned self] in
                 if $0.title == Resources.Strings.Gallery.alertActionCamera {
                     imagePicker.sourceType = .camera
-                }
+                }               //TODO: добавить проверку с выбросом в настройки
                 present(imagePicker, animated: true)
             }
             present(imagePickerAlert, animated: true)

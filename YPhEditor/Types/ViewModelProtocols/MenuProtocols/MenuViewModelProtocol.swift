@@ -11,10 +11,12 @@ import RxSwift
 
 protocol MenuViewModelProtocol {
     
+    var viewModelForIEView: ImageEditingViewModel { get }
+    var viewModelForSuggestionsView: SuggestionsViewModelProtocol { get }
+    
     var needShowImageProcessingVC: PublishSubject<Bool> { get }
     var disposeBag: DisposeBag { get }
     
     func navBarButtonAction()
-    func getSuggestionsViewModel() -> SuggestionsViewModelProtocol
     func pickImage(_ image: UIImage?)
 }
