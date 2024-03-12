@@ -16,9 +16,8 @@ final class ImageEditingViewController: BaseViewController {
     
     private let toolBar: ImageEditingToolBar
     private var slider: ImageEditingSlider
-    private let collectionView: IEFCollectionView
-    private let metalImageView: ImageEditingMetalImageView
-    
+    private let collectionView: IECollectionView
+    private let metalImageView: ImageEditingMetalImageView    
     
     // MARK: - CONFIGURATION
     init(viewModel: ImageEditingViewModelProtocol) {
@@ -26,7 +25,7 @@ final class ImageEditingViewController: BaseViewController {
         
         self.toolBar = ImageEditingToolBar(viewModel: viewModel.viewModelForToolbar)
         self.slider = ImageEditingSlider(viewModel: viewModel.viewModelForSlider)
-        self.collectionView = IEFCollectionView(viewModel: viewModel.viewModelForCollection)
+        self.collectionView = IECollectionView(viewModel: viewModel.viewModelForCollection)
         self.metalImageView = ImageEditingMetalImageView(viewModel: viewModel.viewModelForMetalImage)
         
         super.init(nibName: nil, bundle: nil)
@@ -36,10 +35,17 @@ final class ImageEditingViewController: BaseViewController {
     
     func configureButtons() {
         
-        addNavBarButton(ofType: .options, disposedBy: viewModel.disposeBag, completion: { print("options") })
-        addNavBarButton(ofType: .info, disposedBy: viewModel.disposeBag, completion: { print("info") })
-        addNavBarButton(ofType: .download, disposedBy: viewModel.disposeBag, completion: { print("download") })
-        addNavBarButton(ofType: .upload, disposedBy: viewModel.disposeBag, completion: { print("upload") })
+//        addNavBarRightButton(ofType: .options, disposedBy: viewModel.disposeBag, completion: { [unowned self] in
+//            let destVC = SettingsViewController(viewModel: viewModel.viewModelForSettingsView)
+//            navigationController?.pushViewController(destVC, animated: true)
+//        })
+//        addNavBarRightButton(ofType: .info, disposedBy: viewModel.disposeBag, completion: { [unowned self] in
+//            let destVC = InfoViewController(viewModel: viewModel.viewModelForInfoView)
+//            navigationController?.pushViewController(destVC, animated: true)
+//        })
+        addNavBarLeftButton(ofType: .download, disposedBy: viewModel.disposeBag, completion: viewModel.downloadImageCompletion())
+        addNavBarLeftButton(ofType: .upload, disposedBy: viewModel.disposeBag, completion: viewModel.uploadImageCompletion())
+        addNavBarRightButton(ofType: .info, disposedBy: viewModel.disposeBag, completion: viewModel.applyAICompletion())
     }
 }
 
@@ -49,6 +55,11 @@ extension ImageEditingViewController {
         super.setConfigurations()
         
         viewModel.setViewsConfigurations(slider: slider)
+        viewModel.subscribeToViewModel { [weak self] url, destVCViewModel in
+            guard let self else { return }
+            let destVC = ImageEditingUploadingController(viewModel: destVCViewModel)
+            present(destVC, animated: true)
+        }
         configureButtons()
     }
   

@@ -13,10 +13,13 @@ protocol ImageEditingViewModelProtocol {
     
     var viewModelForToolbar: ImageEditingToolBarViewModelProtocol { get }
     var viewModelForSlider: ImageEditingSliderViewModelProtocol { get }
-    var viewModelForCollection: IEFCollectionViewModelProtocol { get }
+    var viewModelForCollection: IECollectionViewModelProtocol { get }
     var viewModelForMetalImage: ImageEditingMetalImageViewModelProtocol { get }
+    var viewModelForUploadingView: ImageEditingUploadingViewModelProtocol { get }
+//    var viewModelForInfoView: InfoViewModelProtocol { get }
+//    var viewModelForSettingsView: SettingsViewModelProtocol { get }
     
-    var currentCell: (cell: IEFCollectionViewCell, rawValue: Int) { get }
+    var currentCell: (cell: UICollectionViewCell, rawValue: Int) { get }
     
     var disposeBag: DisposeBag { get }
     
@@ -33,4 +36,10 @@ protocol ImageEditingViewModelProtocol {
     func cellChanged()
     
     func updateViews()
+    
+    //MARK: NavBar actions
+    func subscribeToViewModel(completion: @escaping(_ url: String, _ uploadingViewModel: ImageEditingUploadingViewModelProtocol)->Void)
+    func downloadImageCompletion() -> ()->Void
+    func uploadImageCompletion() -> ()->Void
+    func applyAICompletion() -> ()->Void
 }

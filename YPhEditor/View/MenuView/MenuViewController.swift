@@ -61,17 +61,16 @@ final class MenuViewController: BaseViewController {
             .asObservable()
             .asDriver(onErrorJustReturn: true)
             .drive(onNext: { [unowned self] _ in
-                let destVC = ImageEditingViewController(viewModel: viewModel.viewModelForIEView)
-                show(destVC, sender: nil)
+                showImageEditingController()
             })
             .disposed(by: viewModel.disposeBag)
     }
     
     private func configureButtons() {
         
-        addNavBarButton(ofType: .options, disposedBy: viewModel.disposeBag, completion: { [unowned self] in
-            viewModel.navBarButtonAction()
-        })
+//        addNavBarRightButton(ofType: .options, disposedBy: viewModel.disposeBag, completion: { [unowned self] in
+//            viewModel.navBarButtonAction()
+//        })
         
         suggestionsButton.setCompletion(disposedBy: viewModel.disposeBag) { [unowned self] in
             
@@ -82,19 +81,32 @@ final class MenuViewController: BaseViewController {
 //        suggestionsButton.rx.menuButoonTapped.asDriver()
 //            .drive(onNext: {
 //                
-//            }).disposed(by: <#T##DisposeBag#>)
+//            }).disposed(by: )
         
         galleryButton.setCompletion(disposedBy: viewModel.disposeBag) { [unowned self] in
             
             imagePicker.sourceType = .photoLibrary
             let imagePickerAlert = MenuImagePickerAlert { [unowned self] in
-                if $0.title == Resources.Strings.Gallery.alertActionCamera {
+                switch $0.title {
+                case Resources.Strings.Gallery.alertActionLast:
+                    viewModel.prepareForLastProcessing()
+                    showImageEditingController()
+                    
+                case Resources.Strings.Gallery.alertActionCamera:
                     imagePicker.sourceType = .camera
-                }               //TODO: добавить проверку с выбросом в настройки
-                present(imagePicker, animated: true)
+                    fallthrough
+                
+                default:
+                    present(imagePicker, animated: true)
+                }
             }
             present(imagePickerAlert, animated: true)
         }
+    }
+    
+    private func showImageEditingController() {
+        let destVC = ImageEditingViewController(viewModel: viewModel.viewModelForIEView)
+        show(destVC, sender: nil)
     }
 }
 

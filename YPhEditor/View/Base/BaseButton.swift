@@ -17,6 +17,29 @@ class BaseButton: UIButton {
             .bind(onNext: completion)
             .disposed(by: disposeBag)
     }
+    
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        setConfigurations()
+        configureAppearance()
+        setupSubviews()
+        constraintSubviews()
+    }
+    
+    required init?(coder: NSCoder) { nil }
+}
+
+@objc extension BaseButton {
+    
+    func setConfigurations() { }
+    
+    func configureAppearance() { }
+    
+    func setupSubviews() { }
+    
+    func constraintSubviews() { }
 }
 
 // MARK: - ANIMATION

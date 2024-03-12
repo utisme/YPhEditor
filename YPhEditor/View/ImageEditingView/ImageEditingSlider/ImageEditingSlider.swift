@@ -36,7 +36,7 @@ final class ImageEditingSlider: UIControl {
     
     private var minValue: CGFloat = 0
     private var maxValue: CGFloat = 100
-    private var initValue: CGFloat = 50
+    private var initValue: CGFloat = 0
     private(set) var value: CGFloat {
         get {
             switch thumbCenter {
@@ -205,7 +205,8 @@ extension ImageEditingSlider {
     private func constraintSubviews() {
         
         thumb.frame.size = CGSize(width: bounds.width, height: 20)
-        thumb.setInitPoint(withInitMarkerAt: (initValue - minValue) / (maxValue - minValue))
+//        thumb.setInitPoint(withInitMarkerAt: (initValue - minValue) / (maxValue - minValue))
+        thumb.setInitPoint(withInitMarkerAt: 0.5)           //TODO: починить отрисовку маркера
         initValueMarker.frame = CGRect(x: Int(bounds.midX), y: Int(bounds.midY) - 9, width: 2, height: 20)
     }
 }

@@ -12,7 +12,7 @@ final class MenuBackgroundViewModel: MenuBackgroundViewModelProtocol {
     
     func prepareImage(_ image: CIImage, to view: MetalImageView) -> CIImage {
 
-        let scaledToViewImage = ImageProcessingManager.Transforms.fitImage(image, to: view)
+        let scaledToViewImage = ImageProcessingManager.Tools.fitImage(image, to: view)
         
         let monoAreaRect = CGRect(x: view.drawableSize.width / 6,
                                   y: view.drawableSize.height / 3,
@@ -20,7 +20,7 @@ final class MenuBackgroundViewModel: MenuBackgroundViewModelProtocol {
                                   height: view.drawableSize.height / 2)
         let monoArea = scaledToViewImage.cropped(to: monoAreaRect)
         
-        let filter = ImageProcessingManager.Adjust.Effect.getEffect(.mono)
+        let filter = ImageProcessingManager.Adjust.Effect.getEffect(.noir)
         guard let monoArea = filter().apply(for: monoArea) else { return scaledToViewImage }      //TODO: handle error
         
         return monoArea.composited(over: scaledToViewImage)

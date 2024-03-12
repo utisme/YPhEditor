@@ -12,7 +12,7 @@ final class ImageEditingMetalImageView: BaseView {
     
     private let viewModel: ImageEditingMetalImageViewModelProtocol
     
-    private let backgroundImage = MetalImageView()
+    private let imageView = MetalImageView()
     
     init(viewModel: ImageEditingMetalImageViewModelProtocol) {
         self.viewModel = viewModel
@@ -28,8 +28,8 @@ extension ImageEditingMetalImageView {
     override func setConfigurations() {
         super.setConfigurations()
         
-        backgroundImage.delegate = self
-        backgroundImage.setTexture(from: viewModel.getCurrentImage())
+        imageView.delegate = self
+        imageView.setTexture(from: viewModel.getCurrentImage())
     }
     
     override func configureAppearance() {
@@ -39,13 +39,13 @@ extension ImageEditingMetalImageView {
     override func setupSubviews() {
         super.setupSubviews()
         
-        addSubviews(backgroundImage)
+        addSubviews(imageView)
     }
     
     override func constraintSubviews() {
         super.constraintSubviews()
         
-        backgroundImage.snp.makeConstraints { make in
+        imageView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
     }

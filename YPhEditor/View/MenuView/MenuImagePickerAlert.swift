@@ -44,6 +44,12 @@ extension MenuImagePickerAlert {
             handler: completion)
         addAction(alertActionCamera)
         
+        let alertActionLast = UIAlertAction(
+            title: Resources.Strings.Gallery.alertActionLast,
+            style: .default,
+            handler: completion)
+        addAction(alertActionLast)
+        
         let alertActionCancel = UIAlertAction(
             title: Resources.Strings.Gallery.alertActionCancel,
             style: .cancel) { _ in

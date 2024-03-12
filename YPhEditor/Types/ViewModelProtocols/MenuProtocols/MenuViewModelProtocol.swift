@@ -19,4 +19,5 @@ protocol MenuViewModelProtocol {
     
     func navBarButtonAction()
     func pickImage(_ image: UIImage?)
+    func prepareForLastProcessing()
 }

@@ -9,72 +9,87 @@ import Foundation
 import MetalKit
 import RxRelay
 
-
-
-
 final class ImageProcessingManager {
     
     static let shared = ImageProcessingManager()
     
     let device: MTLDevice! = MTLCreateSystemDefaultDevice()
-    private let ciContext = CIContext()
+    let ciContext = CIContext()
     
     var filtersStack: [FilterProtocol] = []
-    private var previousFiltersStack: [AdjustProtocol] = []
-    private var canceledFiltersStack: [AdjustProtocol] = []
+    private var previousAdjustsStack: [AdjustProtocol] = []
+    private var canceledAdjustsStack: [AdjustProtocol] = []
     
-    
-    var effectsStack: [EffectProtocol] = []
-    var applyingEffectsStack: [Int] = []
+    var currentEffect: EffectProtocol = Adjust.Effect.WithoutEffect()
     
     private init() {
         Adjust.Filter.allCases.forEach {
             filtersStack.append($0.getFilter())
         }
-        
-        Adjust.Effect.allCases.forEach {
-            effectsStack.append($0.getEffect())
+    }
+    
+    func setFiltersStackDefaults() {
+        var filtersValues: [CGFloat] = []
+        ImageProcessingManager.shared.filtersStack.forEach { filter in
+            filtersValues.append(filter.value)
+        }
+        UserDefaultsManager.shared.filtersValuesDefaults = filtersValues
+    }
+    
+    func getFiltersStackFromDefaults() {
+        UserDefaultsManager.shared.filtersValuesDefaults.enumerated().forEach { index, value in
+            filtersStack[index].value = value
         }
     }
     
-    func applyProcessingStack(for image: CIImage) -> CIImage? {
+    func setEffectDefaults() {
+        UserDefaultsManager.shared.effectIndexDefaults = Adjust.Effect.getEffectIndex(for: currentEffect)
+    }
+    
+    func getEffectFromDefaults() {
+        guard let effectIndexDefaults = UserDefaultsManager.shared.effectIndexDefaults,
+              let currentEffect = Adjust.Effect(rawValue: effectIndexDefaults)?.getEffect()
+        else { return }        //TODO: handle error
+        self.currentEffect = currentEffect
+    }
+    
+    func applyProcessingStack(for image: CIImage?) -> CIImage? {
         
         var outputImage: CIImage? = image
         filtersStack.forEach { filter in
             outputImage = filter.apply(for: outputImage)
         }
-        applyingEffectsStack.forEach { index in
-            outputImage = effectsStack[index].apply(for: outputImage)
-            
-        }
+        outputImage = currentEffect.apply(for: outputImage)
         return outputImage
     }
     
     func valueChangingDidFinish(for index: Int, with value: CGFloat) {
         guard index < filtersStack.count else { return }            //TODO: handle error
         
-        previousFiltersStack.append(filtersStack[index].copy())
-        canceledFiltersStack.removeAll()
+        previousAdjustsStack.append(filtersStack[index].copy())
+        canceledAdjustsStack.removeAll()
     }
     
     func applyEffect(with rawValue: Int) {
-        guard applyingEffectsStack.first(where: { $0 == rawValue }) == nil,
-              let effect = Adjust.Effect(rawValue: rawValue)?.getEffect()
-        else { return }                                                 //TODO: handle error
-        applyingEffectsStack.append(rawValue)
-        previousFiltersStack.append(effect)         
-        canceledFiltersStack.removeAll()
+        guard let effect = Adjust.Effect(rawValue: rawValue)?.getEffect() else { return }  //TODO: handle error
+        
+        currentEffect = effect
+        if let _ = previousAdjustsStack.last as? EffectProtocol {
+            previousAdjustsStack.removeLast()
+        }
+        previousAdjustsStack.append(effect)
+        canceledAdjustsStack.removeAll()
     }
     
     func cancelLastFiltersChange() {
         
-        if let currentFilter = previousFiltersStack.last,
+        if let currentFilter = previousAdjustsStack.last,
            let correspondingIndex = filtersStack.firstIndex(where: { type(of: $0) == type(of: currentFilter) }) {
             
-            canceledFiltersStack.append(currentFilter)
-            previousFiltersStack.removeLast()
+            canceledAdjustsStack.append(currentFilter)
+            previousAdjustsStack.removeLast()
             
-            guard let previousFilter = previousFiltersStack.reversed().first(where: { type(of: $0) == type(of: currentFilter) }),
+            guard let previousFilter = previousAdjustsStack.reversed().first(where: { type(of: $0) == type(of: currentFilter) }),
                   let previousFilter = previousFilter as? FilterProtocol
             else {
                 filtersStack[correspondingIndex].value = 0
@@ -83,37 +98,32 @@ final class ImageProcessingManager {
             
             filtersStack[correspondingIndex].value = previousFilter.value
             
-        } else if let currentEffect = previousFiltersStack.last,
-                  let correspondingIndex = effectsStack.firstIndex(where: { type(of: $0) == type(of: currentEffect) }) {
+        } else if let _ = previousAdjustsStack.last {
             
-            canceledFiltersStack.append(currentEffect)
-            previousFiltersStack.removeLast()
-            
-            guard let indexToCancel = applyingEffectsStack.firstIndex(where: { $0 == correspondingIndex }) else { return }              //TODO: handle error
-            applyingEffectsStack.remove(at: indexToCancel)
+            canceledAdjustsStack.append(currentEffect)
+            previousAdjustsStack.removeLast()
+            currentEffect = Adjust.Effect.WithoutEffect()
         } else {
-            debugPrint("error")         //TODO: handle error
+            debugPrint("error")         //TODO: возвращать здесь коллекцию в начало
         }
     }
     
     func returnLastFiltersChange() {
-        if let filterToReturn = canceledFiltersStack.last,
+        if let filterToReturn = canceledAdjustsStack.last,
            let filterToReturn = filterToReturn as? FilterProtocol,
            let correspondingIndex = filtersStack.firstIndex(where: { type(of: $0) == type(of: filterToReturn) }) {
             
             filtersStack[correspondingIndex].value = filterToReturn.value
-            previousFiltersStack.append(filterToReturn)
-            canceledFiltersStack.removeLast()
-        } else if let effectToReturn = canceledFiltersStack.last,
-                  let effectToReturn = effectToReturn as? EffectProtocol,
-                  let correspondingIndex = effectsStack.firstIndex(where: { type(of: $0) == type(of: effectToReturn )}),
-                  let correspondingEffect = Adjust.Effect(rawValue: correspondingIndex)?.getEffect()
+            previousAdjustsStack.append(filterToReturn)
+            canceledAdjustsStack.removeLast()
+        } else if let effectToReturn = canceledAdjustsStack.last,
+                  let effectToReturn = effectToReturn as? EffectProtocol
         {
-            applyingEffectsStack.append(correspondingIndex)
-            previousFiltersStack.append(correspondingEffect)
-            canceledFiltersStack.removeLast()
+            currentEffect = effectToReturn
+            previousAdjustsStack.append(effectToReturn)
+            canceledAdjustsStack.removeLast()
         } else {
-            debugPrint("error")         //TODO: handle error
+            debugPrint("error")         //TODO: возвращать здесь коллекцию в начало
         }
     }
 }

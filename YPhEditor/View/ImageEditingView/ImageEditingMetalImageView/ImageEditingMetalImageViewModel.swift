@@ -22,7 +22,7 @@ final class ImageEditingMetalImageViewModel: ImageEditingMetalImageViewModelProt
     
     func prepareImage(_ image: CIImage, to view: MetalImageView) -> CIImage {
         
-        let scaledToViewImage = ImageProcessingManager.Transforms.fitImage(image, to: view, minScale: true)
+        let scaledToViewImage = ImageProcessingManager.Tools.fitImage(image, to: view, minScale: true)
         guard let processedImage = ImageProcessingManager.shared.applyProcessingStack(for: scaledToViewImage) else { return scaledToViewImage }         // TODO: handle error
         
         return processedImage

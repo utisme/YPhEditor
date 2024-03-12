@@ -12,17 +12,6 @@ import RxCocoa
 
 class MenuButton: BaseButton {
     
-    convenience init() {
-        self.init(frame: .zero)
-        
-        setConfigurations()
-        configureAppearance()
-        setupSubviews()
-        constraintSubviews()
-        
-        addAnimation()
-    }
-    
     private let label: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
@@ -38,19 +27,19 @@ class MenuButton: BaseButton {
 
 extension MenuButton {
     
-    private func setConfigurations() {
-        
+    override func setConfigurations() {
+        addAnimation()
     }
     
-    private func configureAppearance() {
+    override func configureAppearance() {
         backgroundColor = Resources.Colors.element
     }
     
-    private func setupSubviews() {
+    override func setupSubviews() {
         addSubviews(label)
     }
     
-    private func constraintSubviews() {
+    override func constraintSubviews() {
         label.snp.makeConstraints { make in
             make.verticalEdges.equalToSuperview().inset(13)
             make.centerX.equalToSuperview()

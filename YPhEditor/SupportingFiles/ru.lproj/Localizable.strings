@@ -1,0 +1,17 @@
+/* 
+  Localizable.strings
+  YPhEditor
+
+  Created by Эдгар Кусков on 12.03.24.
+  
+*/
+"Gallery" = "Галлерея";
+"Suggestions" = "Предложения";
+"Import an image from: " = "Импортировать фото: ";
+"Camera" = "Камера";
+"Last Image" = "Последнее изображение";
+"Cancel" = "Отмена";
+"Copy Link" = "Копировать ссылку";
+"There is nothing here..." = "Здесь пусто...";
+"And here" = "И здесь тоже";
+"Language: " = "Язык";

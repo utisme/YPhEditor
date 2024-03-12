@@ -14,13 +14,13 @@ final class NetworkManager {
     static let shared = NetworkManager()
     private init() {}
     
-    private let host = "https://api.unsplash.com/"
-    private let route = "photos/"
-    private let params = "client_id=AQCJXXYQB-A_OIAAeAZ5EKccv7jT0RmemfYTUgthj8M"
-    private let requestParams = ["order_by":"popular"]
-    
+    private let imagesSource = "https://api.unsplash.com/photos/?client_id=AQCJXXYQB-A_OIAAeAZ5EKccv7jT0RmemfYTUgthj8M"
+    private let getRequestParams = ["order_by":"popular"]
     let imagesObservable = PublishRelay<[UIImage]>()
     var images: [UIImage] = []
+    
+    private let imageHosting = "https://api.imgbb.com/1/upload?expiration=600&key=cd8130c5bc3bdcef2bc1d09e8ee3d585"
+    let uploadObservable = PublishRelay<String>()
     
     func prepareImages() {
         
@@ -39,15 +39,8 @@ final class NetworkManager {
         }
     }
     
-    
-    private func createURL() -> String {
-        
-        let url = host + route + "?" + params
-        return url
-    }
-    
     private func getImages(completion: @escaping ()->()) {
-        AF.request(createURL(), parameters: requestParams)
+        AF.request(imagesSource, parameters: getRequestParams)
             .validate()
             .responseDecodable(of: [ImageURLs].self) { [weak self] response in
                 
@@ -76,9 +69,7 @@ final class NetworkManager {
         
         AF.request(url).responseData { [weak self] response in
             switch response.result {
-                
             case .success(let imageData):
-                
                 guard let image = UIImage(data: imageData) else {
                     completion()
                     return
@@ -86,11 +77,25 @@ final class NetworkManager {
                 self?.images.append(image)
                 
             case .failure(let error):
-                
                 print(error)
-                
             }
             completion()
+        }
+    }
+    
+    func uploadImage(_ image: UIImage) {
+        guard let imageData = image.jpegData(compressionQuality: 1) else { return }             //TODO: handle error
+        
+        AF.upload(multipartFormData: { multipartFormData in
+            multipartFormData.append(imageData, withName: "image", fileName: "image.jpeg")
+        }, to: imageHosting)
+        .responseDecodable(of: HostedImageUrl.self) { [unowned self] response in
+            switch response.result {
+            case .success(let value):
+                uploadObservable.accept(value.url)
+            case .failure(let error):
+                print(error)
+            }
         }
     }
 }

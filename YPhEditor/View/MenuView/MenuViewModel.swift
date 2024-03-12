@@ -40,4 +40,9 @@ final class MenuViewModel: MenuViewModelProtocol {
         CurrentImageManager.shared.currentUIImage = image
         needShowImageProcessingVC.onNext(true)
     }
+    
+    func prepareForLastProcessing() {
+        ImageProcessingManager.shared.getEffectFromDefaults()
+        ImageProcessingManager.shared.getFiltersStackFromDefaults()
+    }
 }

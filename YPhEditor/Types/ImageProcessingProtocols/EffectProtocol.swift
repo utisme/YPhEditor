@@ -10,7 +10,4 @@ import UIKit
 
 protocol EffectProtocol: AdjustProtocol {
     
-    var effectIcon: UIImage { get }
-    
-    func apply(for image: CIImage?) -> CIImage?
 }

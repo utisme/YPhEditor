@@ -8,7 +8,9 @@
 import Foundation
 import CoreImage
 
-protocol AdjustProtocol {
+public protocol AdjustProtocol {
     
     func apply(for image: CIImage?) -> CIImage?
 }
+
+

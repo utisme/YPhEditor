@@ -11,13 +11,31 @@ import UIKit
 extension ImageProcessingManager.Adjust {
     
     enum Effect: Int, CaseIterable {
-        case mono, invert, mask
+        case without, noir, mono, instant, fade, chrome, invert, mask
+        
+        static func getEffectIndex(for effect: EffectProtocol) -> Int? {
+            var allEffects: [EffectProtocol] = []
+            Effect.allCases.forEach { effect in
+                allEffects.append(effect.getEffect())
+            }
+            return allEffects.firstIndex { type(of: $0) == type(of: effect)}
+        }
         
         func getEffect() -> EffectProtocol {
             
             switch self {
+            case .without:
+                WithoutEffect()
+            case .noir:
+                NoirEffect()
             case .mono:
                 MonoEffect()
+            case .instant:
+                InstantEffect()
+            case .fade:
+                FadeEffect()
+            case .chrome:
+                ChromeEffect()
             case .invert:
                 InvertEffect()
             case .mask:
@@ -25,12 +43,70 @@ extension ImageProcessingManager.Adjust {
             }
         }
         
-        
         // MARK: - Effects
-        final class MonoEffect: EffectProtocol {
+        
+        final class WithoutEffect: EffectProtocol {
+            
+            func apply(for image: CIImage?) -> CIImage? {
+                image
+            }
+        }
+        
+        final class NoirEffect: EffectProtocol {
             
             let filter: CIFilter! = CIFilter(name: "CIPhotoEffectNoir")
-            let effectIcon: UIImage = Resources.Images.imageError
+            
+            func apply(for image: CIImage?) -> CIImage? {
+                
+                filter.setValue(image, forKey: kCIInputImageKey)
+                
+                guard let outputImage = filter.outputImage else { return image }
+                return outputImage
+            }
+        }
+        
+        final class MonoEffect: EffectProtocol {
+            
+            let filter: CIFilter! = CIFilter(name: "CIPhotoEffectMono")
+            
+            func apply(for image: CIImage?) -> CIImage? {
+                
+                filter.setValue(image, forKey: kCIInputImageKey)
+                
+                guard let outputImage = filter.outputImage else { return image }
+                return outputImage
+            }
+        }
+        
+        final class InstantEffect: EffectProtocol {
+            
+            let filter: CIFilter! = CIFilter(name: "CIPhotoEffectInstant")
+            
+            func apply(for image: CIImage?) -> CIImage? {
+                
+                filter.setValue(image, forKey: kCIInputImageKey)
+                
+                guard let outputImage = filter.outputImage else { return image }
+                return outputImage
+            }
+        }
+        
+        final class FadeEffect: EffectProtocol {
+            
+            let filter: CIFilter! = CIFilter(name: "CIPhotoEffectFade")
+            
+            func apply(for image: CIImage?) -> CIImage? {
+                
+                filter.setValue(image, forKey: kCIInputImageKey)
+                
+                guard let outputImage = filter.outputImage else { return image }
+                return outputImage
+            }
+        }
+        
+        final class ChromeEffect: EffectProtocol {
+            
+            let filter: CIFilter! = CIFilter(name: "CIPhotoEffectChrome")
             
             func apply(for image: CIImage?) -> CIImage? {
                 
@@ -44,7 +120,6 @@ extension ImageProcessingManager.Adjust {
         final class InvertEffect: EffectProtocol {
             
             let filter: CIFilter! = CIFilter(name: "CIColorInvert")
-            let effectIcon: UIImage = Resources.Images.imageError
             
             func apply(for image: CIImage?) -> CIImage? {
                 
@@ -58,7 +133,6 @@ extension ImageProcessingManager.Adjust {
         final class MaskEffect: EffectProtocol {
             
             let filter: CIFilter! = CIFilter(name: "CIMaskToAlpha")
-            let effectIcon: UIImage = Resources.Images.imageError
             
             func apply(for image: CIImage?) -> CIImage? {
                 

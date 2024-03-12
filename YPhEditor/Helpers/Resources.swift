@@ -25,7 +25,28 @@ struct Resources {
             static let alertTitle = "Import an image from: ".localized()
             static let alertActionGallery = "Gallery".localized()
             static let alertActionCamera = "Camera".localized()
+            static let alertActionLast = "Last Image".localized()
             static let alertActionCancel = "Cancel".localized()
+        }
+        
+        enum ImageEditing {
+            
+            enum Uploding {
+                
+                static let copyButton = "Copy Link".localized()
+                static let cancelButton = "Cancel".localized()
+            }
+            
+            enum Info {
+                
+                static let noDataLeft = "There is nothing here...".localized()
+                static let noDataRight = "And here".localized()
+            }
+        }
+        
+        enum Settings {
+            
+            static let language = "Language: ".localized()
         }
     }
 
@@ -36,6 +57,7 @@ struct Resources {
         
         enum NavBar {
             
+            static let back = UIImage(systemName: "chevron.left")
             static let options = UIImage(systemName: "ellipsis.circle.fill")
             static let info = UIImage(systemName: "info.circle.fill")
             static let download = UIImage(systemName: "square.and.arrow.down.fill")
@@ -68,6 +90,11 @@ struct Resources {
                 
                 static let exposure = UIImage(systemName: "plusminus.circle")
                 static let gamma = UIImage(systemName: "sun.max")
+                static let saturation = UIImage(systemName: "square.3.layers.3d")
+                static let contrast = UIImage(systemName: "camera.macro.circle.fill")
+                static let brightness = UIImage(systemName: "trapezoid.and.line.horizontal")
+                static let vibrance = UIImage(systemName: "sunrise")
+                static let tint = UIImage(systemName: "moon.fill")
             }
         }
     }

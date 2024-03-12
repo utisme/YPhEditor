@@ -17,8 +17,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         
-//        let sceneRootViewController = NavigationController(rootViewController: MenuViewController())
-        let sceneRootViewController = NavigationController(rootViewController: ImageEditingViewController(viewModel: ImageEditingViewModel()))
+        let sceneRootViewController = NavigationController(rootViewController: MenuViewController())
+//        let sceneRootViewController = NavigationController(rootViewController: ImageEditingViewController(viewModel: ImageEditingViewModel()))
         
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
@@ -33,6 +33,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This occurs shortly after the scene enters the background, or when its session is discarded.
         // Release any resources associated with this scene that can be re-created the next time the scene connects.
         // The scene may re-connect later, as its session was not necessarily discarded (see `application:didDiscardSceneSessions` instead).
+        CoreDataManager.shared.update { update in
+            update.image = CurrentImageManager.shared.currentUIImage?.jpegData(compressionQuality: 1)
+        }
+        ImageProcessingManager.shared.setFiltersStackDefaults()
+        ImageProcessingManager.shared.setEffectDefaults()
     }
 
     func sceneDidBecomeActive(_ scene: UIScene) {
@@ -56,9 +61,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // to restore the scene back to its current state.
 
         // Save changes in the application's managed object context when the application transitions to the background.
-        CoreDataManager.shared.update { update in
-            update.currentImage = CurrentImageManager.shared.currentUIImage?.pngData()
-        }
     }
 
 

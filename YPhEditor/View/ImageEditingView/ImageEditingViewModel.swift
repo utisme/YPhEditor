@@ -7,6 +7,7 @@
 
 import Foundation
 import RxSwift
+import RxRelay
 import UIKit
 
 final class ImageEditingViewModel: ImageEditingViewModelProtocol {
@@ -17,40 +18,42 @@ final class ImageEditingViewModel: ImageEditingViewModelProtocol {
         viewModel.superViewModel = self
         return viewModel
     }()
-    
     lazy var viewModelForSlider: ImageEditingSliderViewModelProtocol = {
         let viewModel = ImageEditingSliderViewModel()
         viewModel.superViewModel = self
         return viewModel
     }()
-    
-    lazy var viewModelForCollection: IEFCollectionViewModelProtocol = {
-        let viewModel = IEFCollectionViewModel()
+    lazy var viewModelForCollection: IECollectionViewModelProtocol = {
+        let viewModel = IECollectionViewModel()
         viewModel.superViewModel = self
         return viewModel
     }()
-    
-    var viewModelForMetalImage: ImageEditingMetalImageViewModelProtocol {
-        ImageEditingMetalImageViewModel()
-    }
+    let viewModelForMetalImage: ImageEditingMetalImageViewModelProtocol = ImageEditingMetalImageViewModel()
+    var viewModelForUploadingView: ImageEditingUploadingViewModelProtocol = ImageEditingUploadingViewModel()
+//    let viewModelForInfoView: InfoViewModelProtocol = InfoViewModel()
+//    let viewModelForSettingsView: SettingsViewModelProtocol = SettingsViewModel()
     
 // MARK: Logic
     let disposeBag = DisposeBag()
     
+    let uploadObservable = PublishRelay<String>()
+    
     var adjustsType: ImageProcessingManager.Adjust = .filters
     
-    var currentCell: (cell: IEFCollectionViewCell, rawValue: Int) {
+    var currentCell: (cell: UICollectionViewCell, rawValue: Int) {
         viewModelForCollection.currentCell
     }
     private var slider: ImageEditingSlider?
     
     func showFilters() {
         adjustsType = .filters
+        viewModelForCollection.configureForFilters()
         updateViews()
     }
     
     func showEffects() {
         adjustsType = .effects
+        viewModelForCollection.configureForEffects()
         updateViews()
     }
     
@@ -59,8 +62,9 @@ final class ImageEditingViewModel: ImageEditingViewModelProtocol {
     }
     
     func sliderValueChanged(_ value: CGFloat) {
+        guard let cell = currentCell.cell as? IEFCollectionViewCell else { return }                 //TODO: handle error
         ImageProcessingManager.shared.filtersStack[currentCell.rawValue].value = value
-        currentCell.cell.configure(withValue: value)
+        cell.configure(withValue: value)
     }
     
     func sliderValueChangingDidFinish(with value: CGFloat) {
@@ -91,11 +95,45 @@ final class ImageEditingViewModel: ImageEditingViewModelProtocol {
         switch adjustsType {
         case .filters:
             slider?.isHidden = false
-            viewModelForCollection.configureForFilters()
+            viewModelForCollection.updateCollection()
+            configureSlider()
             
         case .effects:
             slider?.isHidden = true
-            viewModelForCollection.configureForEffects()
+            viewModelForCollection.updateCollection()
+        }
+    }
+    
+    //MARK: NavBarButtons Actions
+    
+    func subscribeToViewModel(completion: @escaping(_ url: String, _ uploadingViewModel: ImageEditingUploadingViewModelProtocol)->Void) {//TODO: переделать под комплишены все подобные случаи
+        NetworkManager.shared.uploadObservable
+            .asDriver(onErrorJustReturn: "Image uploading error")       //TODO: handle error!
+            .drive { [weak self] url in
+                guard let self else { return }                          //TODO: handle error
+                viewModelForUploadingView.url = url
+                completion(url, viewModelForUploadingView)
+            }
+            .disposed(by: disposeBag)
+    }
+    
+    func downloadImageCompletion() -> ()->Void {
+        { CurrentImageManager.shared.saveImageToGallery() }
+    }
+    
+    func uploadImageCompletion() -> ()->Void {
+        { CurrentImageManager.shared.uploadImage() }
+    }
+    
+    func applyAICompletion() -> () -> Void {
+        {
+            guard let processedImage = ImageProcessingManager.Tools.applyPaprikaFor(CurrentImageManager.shared.currentCGImage),
+                  let orientation = CurrentImageManager.shared.currentUIImage?.imageOrientation,
+                  let size = CurrentImageManager.shared.currentUIImage?.size
+            else { return }             // TODO: handle error
+            
+            let image = UIImage(cgImage: processedImage, scale: 1, orientation: orientation).resizedTo(size)
+            CurrentImageManager.shared.currentUIImage = image
         }
     }
 }

@@ -20,7 +20,27 @@ class BaseViewController: UIViewController {
         constraintSubviews()
     }
     
-    func addNavBarButton(ofType type: NavBarButtonType, disposedBy disposeBag: DisposeBag, completion: @escaping ()->Void) {
+    func addNavBarRightButton(ofType type: NavBarButtonType, disposedBy disposeBag: DisposeBag, completion: @escaping ()->Void) {
+        
+        let button = getButtonOfType(type)
+        navigationItem.rightBarButtonItems?.append(button)
+        button.rx
+            .tap
+            .bind(onNext: completion)
+            .disposed(by: disposeBag)
+    }
+    
+    func addNavBarLeftButton(ofType type: NavBarButtonType, disposedBy disposeBag: DisposeBag, completion: @escaping ()->Void) {
+        
+        let button = getButtonOfType(type)
+        navigationItem.leftBarButtonItems?.append(button)
+        button.rx
+            .tap
+            .bind(onNext: completion)
+            .disposed(by: disposeBag)
+    }
+    
+    private func getButtonOfType(_ type: NavBarButtonType) -> UIBarButtonItem {
         let button: UIBarButtonItem
         
         switch type {
@@ -52,11 +72,7 @@ class BaseViewController: UIViewController {
         }
         
         button.tintColor = .gray
-        navigationItem.rightBarButtonItems?.append(button)
-        button.rx
-            .tap
-            .bind(onNext: completion)
-            .disposed(by: disposeBag)
+        return button
     }
 }
 
@@ -65,6 +81,7 @@ class BaseViewController: UIViewController {
     
     func setConfigurations() {
         navigationItem.rightBarButtonItems = []
+        navigationItem.leftBarButtonItems = []
     }
     
     func configureAppearance() {
