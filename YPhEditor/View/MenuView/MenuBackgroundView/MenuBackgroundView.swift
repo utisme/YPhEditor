@@ -23,7 +23,7 @@ extension MenuBackgroundView {
     
     override func setConfigurations() {
         super.setConfigurations()
-//      TODO: lazy var
+
         backgroundImage.delegate = self
     }
     
@@ -32,7 +32,7 @@ extension MenuBackgroundView {
     }
     
     override func setupSubviews() {
-        super.setupSubviews()           // TODO: подумать нужен ли супер
+        super.setupSubviews()
         
         addSubviews(backgroundImage)
     }
@@ -57,7 +57,9 @@ extension MenuBackgroundView: MTKViewDelegate {
               let sourceTexture = view.sourceTexture,
               let commandBuffer = view.commandQueue.makeCommandBuffer(),
               let image = CIImage(mtlTexture: sourceTexture)
-        else { return }
+        else { 
+            debugPrint(":: Error: MenuBackgroundView -> draw(): Unable to render image")
+            return }
         
         let processedImage = viewModel.prepareImage(image, to: view)
         

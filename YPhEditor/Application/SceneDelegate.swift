@@ -36,8 +36,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         CoreDataManager.shared.update { update in
             update.image = CurrentImageManager.shared.currentUIImage?.jpegData(compressionQuality: 1)
         }
-        ImageProcessingManager.shared.setFiltersStackDefaults()
-        ImageProcessingManager.shared.setEffectDefaults()
+        UserDefaultsManager.shared.setFiltersStackDefaults()
+        UserDefaultsManager.shared.setEffectDefaults()
     }
 
     func sceneDidBecomeActive(_ scene: UIScene) {

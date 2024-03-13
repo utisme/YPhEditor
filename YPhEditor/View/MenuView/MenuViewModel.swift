@@ -31,10 +31,6 @@ final class MenuViewModel: MenuViewModelProtocol {
     let needShowImageProcessingVC = PublishSubject<Bool>()
     let disposeBag = DisposeBag()
     
-    func navBarButtonAction() {
-        print("nav button action")
-    }
-    
     func pickImage(_ image: UIImage?) {
         
         CurrentImageManager.shared.currentUIImage = image
@@ -42,7 +38,7 @@ final class MenuViewModel: MenuViewModelProtocol {
     }
     
     func prepareForLastProcessing() {
-        ImageProcessingManager.shared.getEffectFromDefaults()
-        ImageProcessingManager.shared.getFiltersStackFromDefaults()
+        UserDefaultsManager.shared.getEffectFromDefaults()
+        UserDefaultsManager.shared.getFiltersStackFromDefaults()
     }
 }

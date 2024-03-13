@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import MetalKit
 
 final class IEECollectionViewCell: BaseCollectionCell {
     

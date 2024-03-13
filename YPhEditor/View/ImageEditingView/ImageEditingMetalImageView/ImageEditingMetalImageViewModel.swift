@@ -21,9 +21,11 @@ final class ImageEditingMetalImageViewModel: ImageEditingMetalImageViewModelProt
     }
     
     func prepareImage(_ image: CIImage, to view: MetalImageView) -> CIImage {
-        
         let scaledToViewImage = ImageProcessingManager.Tools.fitImage(image, to: view, minScale: true)
-        guard let processedImage = ImageProcessingManager.shared.applyProcessingStack(for: scaledToViewImage) else { return scaledToViewImage }         // TODO: handle error
+        guard let processedImage = ImageProcessingManager.shared.applyProcessingStack(for: scaledToViewImage) 
+        else {
+            debugPrint(":: Error: ImageEditingMetalImageViewModel -> prepareImage: Unable to apply processing stack")
+            return scaledToViewImage }
         
         return processedImage
     }

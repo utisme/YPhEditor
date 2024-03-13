@@ -61,7 +61,9 @@ extension ImageEditingMetalImageView: MTKViewDelegate {
               let commandBuffer = view.commandQueue.makeCommandBuffer(),
               let image = CurrentImageManager.shared.currentCIImage,
               let orientation = CurrentImageManager.shared.currentUIImage?.imageOrientation
-        else { return }
+        else { 
+            debugPrint(":: Error: ImageEditingMetalImageView -> draw(): Unable to render image")
+            return }
         
         let scaledToViewImage = viewModel.prepareImage(image.oriented(CGImagePropertyOrientation(orientation)),
                                                        to: view)

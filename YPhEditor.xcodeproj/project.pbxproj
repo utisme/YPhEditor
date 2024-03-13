@@ -32,6 +32,7 @@
 		734D84EA2B6D25F400C8F1D2 /* MenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 734D84E92B6D25F400C8F1D2 /* MenuViewModel.swift */; };
 		734D84EC2B6D262400C8F1D2 /* MenuViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 734D84EB2B6D262400C8F1D2 /* MenuViewModelProtocol.swift */; };
 		735CEE452BA0E04900A4D46B /* Paprika.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 735CEE442BA0E04800A4D46B /* Paprika.mlmodel */; };
+		735CEE472BA1AB4300A4D46B /* CGImage + Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735CEE462BA1AB4300A4D46B /* CGImage + Ext.swift */; };
 		7365DF852B6A373E0072FA8C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7365DF842B6A373E0072FA8C /* AppDelegate.swift */; };
 		7365DF872B6A373E0072FA8C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7365DF862B6A373E0072FA8C /* SceneDelegate.swift */; };
 		7365DF892B6A373E0072FA8C /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7365DF882B6A373E0072FA8C /* MenuViewController.swift */; };
@@ -134,6 +135,7 @@
 		734D84E92B6D25F400C8F1D2 /* MenuViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewModel.swift; sourceTree = "<group>"; };
 		734D84EB2B6D262400C8F1D2 /* MenuViewModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewModelProtocol.swift; sourceTree = "<group>"; };
 		735CEE442BA0E04800A4D46B /* Paprika.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = Paprika.mlmodel; sourceTree = "<group>"; };
+		735CEE462BA1AB4300A4D46B /* CGImage + Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGImage + Ext.swift"; sourceTree = "<group>"; };
 		7365DF812B6A373E0072FA8C /* YPhEditor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YPhEditor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7365DF842B6A373E0072FA8C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7365DF862B6A373E0072FA8C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -422,6 +424,7 @@
 				7365DFD32B6A6CE70072FA8C /* String + Ext.swift */,
 				73CC065F2B7A08E7008DCDD2 /* UIStackView + Ext.swift */,
 				73BF16F42B7CC47000443BBF /* UIImage + Ext.swift */,
+				735CEE462BA1AB4300A4D46B /* CGImage + Ext.swift */,
 				73EE84DE2B7E8D860091171A /* CGFloat + Ext.swift */,
 				73A857D72B8DFFC400A2975A /* CGImagePropertyOrientation + Ext.swift */,
 			);
@@ -774,6 +777,7 @@
 				73B2071E2B73B08A00D79B96 /* SuggestionsCollectionViewCell.swift in Sources */,
 				7320C2B52B727DD400DDAEAE /* SuggestionsViewModelProtocol.swift in Sources */,
 				7365DF852B6A373E0072FA8C /* AppDelegate.swift in Sources */,
+				735CEE472BA1AB4300A4D46B /* CGImage + Ext.swift in Sources */,
 				7365DFCD2B6A65850072FA8C /* UIView + Ext.swift in Sources */,
 				734D84EC2B6D262400C8F1D2 /* MenuViewModelProtocol.swift in Sources */,
 				734A77252B99ADA300BE7E22 /* ImageEditingUploadingViewModel.swift in Sources */,

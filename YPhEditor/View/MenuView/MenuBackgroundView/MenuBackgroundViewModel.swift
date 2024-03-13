@@ -21,7 +21,9 @@ final class MenuBackgroundViewModel: MenuBackgroundViewModelProtocol {
         let monoArea = scaledToViewImage.cropped(to: monoAreaRect)
         
         let filter = ImageProcessingManager.Adjust.Effect.getEffect(.noir)
-        guard let monoArea = filter().apply(for: monoArea) else { return scaledToViewImage }      //TODO: handle error
+        guard let monoArea = filter().apply(for: monoArea) else { 
+            debugPrint(":: Error: MenuBackgroundViewModel -> prepareImage(): unable to apply filter")
+            return scaledToViewImage }
         
         return monoArea.composited(over: scaledToViewImage)
     }

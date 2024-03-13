@@ -12,7 +12,7 @@ import UIKit
 final class CoreDataManager {
     
     static let shared = CoreDataManager()
-    private init() { }
+    private init() { debugPrint(":: Initialization CoreDataManager") }
     
     private let entityName = "ImageProcessingData"
     
@@ -31,7 +31,7 @@ final class CoreDataManager {
             let imageProcessingData = try context.fetch(fetchRequest) as? [ImageProcessingData]
             return imageProcessingData?.first
         } catch {
-            debugPrint("CoreDataManager -> fetch -> ", error)
+            debugPrint(":: Error: CoreDataManager -> fetch: ", error)
             return nil
         }
     }
@@ -41,7 +41,9 @@ final class CoreDataManager {
     func update(completion: (ImageProcessingData)->()) {
         
         guard let imageProcessingData = NSEntityDescription.entity(forEntityName: entityName, in: context)
-        else { return }
+        else { 
+            debugPrint(":: Error: CoreDataManager -> update: Entity capture error")
+            return }
         
         if let previousData = fetch() {
             context.delete(previousData)
@@ -59,7 +61,7 @@ final class CoreDataManager {
                 try context.save()
             } catch {
                 let nserror = error as NSError
-                debugPrint("AppDelegate -> saveContext -> Unresolved error \(nserror), \(nserror.userInfo)")
+                debugPrint(":: Error: CoreDataManager -> saveContext -> Unresolved error: \(nserror), \(nserror.userInfo)")
             }
         }
     }

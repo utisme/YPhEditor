@@ -62,6 +62,7 @@ struct Resources {
             static let info = UIImage(systemName: "info.circle.fill")
             static let download = UIImage(systemName: "square.and.arrow.down.fill")
             static let upload = UIImage(systemName: "icloud.and.arrow.up.fill")
+            static let ai: UIImage! = UIImage(named: "papricaIcon")
         }
         
         enum Menu {
@@ -90,11 +91,11 @@ struct Resources {
                 
                 static let exposure = UIImage(systemName: "plusminus.circle")
                 static let gamma = UIImage(systemName: "sun.max")
-                static let saturation = UIImage(systemName: "square.3.layers.3d")
-                static let contrast = UIImage(systemName: "camera.macro.circle.fill")
-                static let brightness = UIImage(systemName: "trapezoid.and.line.horizontal")
-                static let vibrance = UIImage(systemName: "sunrise")
-                static let tint = UIImage(systemName: "moon.fill")
+                static let saturation = UIImage(named: "saturation")
+                static let contrast = UIImage(systemName: "circle.lefthalf.filled")
+                static let brightness = UIImage(systemName: "sun.min.fill")
+                static let vibrance = UIImage(named: "vibrance")
+                static let tint = UIImage(systemName: "drop")
             }
         }
     }

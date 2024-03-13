@@ -23,55 +23,39 @@ final class ImageProcessingManager {
     var currentEffect: EffectProtocol = Adjust.Effect.WithoutEffect()
     
     private init() {
+        debugPrint(":: Initialization ImageProcessingManager")
         Adjust.Filter.allCases.forEach {
             filtersStack.append($0.getFilter())
         }
     }
-    
-    func setFiltersStackDefaults() {
-        var filtersValues: [CGFloat] = []
-        ImageProcessingManager.shared.filtersStack.forEach { filter in
-            filtersValues.append(filter.value)
-        }
-        UserDefaultsManager.shared.filtersValuesDefaults = filtersValues
-    }
-    
-    func getFiltersStackFromDefaults() {
-        UserDefaultsManager.shared.filtersValuesDefaults.enumerated().forEach { index, value in
-            filtersStack[index].value = value
-        }
-    }
-    
-    func setEffectDefaults() {
-        UserDefaultsManager.shared.effectIndexDefaults = Adjust.Effect.getEffectIndex(for: currentEffect)
-    }
-    
-    func getEffectFromDefaults() {
-        guard let effectIndexDefaults = UserDefaultsManager.shared.effectIndexDefaults,
-              let currentEffect = Adjust.Effect(rawValue: effectIndexDefaults)?.getEffect()
-        else { return }        //TODO: handle error
-        self.currentEffect = currentEffect
-    }
-    
+
+//MARK: Adjust logic
     func applyProcessingStack(for image: CIImage?) -> CIImage? {
-        
         var outputImage: CIImage? = image
         filtersStack.forEach { filter in
             outputImage = filter.apply(for: outputImage)
         }
+        
         outputImage = currentEffect.apply(for: outputImage)
+        
         return outputImage
     }
     
     func valueChangingDidFinish(for index: Int, with value: CGFloat) {
-        guard index < filtersStack.count else { return }            //TODO: handle error
+        guard index < filtersStack.count else {
+            debugPrint(":: Error: ImageProcessingManager -> valueChangingDidFinish: Attempt to access a non-existing filter")
+            return
+        }
         
         previousAdjustsStack.append(filtersStack[index].copy())
         canceledAdjustsStack.removeAll()
     }
     
     func applyEffect(with rawValue: Int) {
-        guard let effect = Adjust.Effect(rawValue: rawValue)?.getEffect() else { return }  //TODO: handle error
+        guard let effect = Adjust.Effect(rawValue: rawValue)?.getEffect() else {
+            debugPrint(":: Error: ImageProcessingManager -> applyEffect: Attempt to access a non-existing filter")
+            return
+        }
         
         currentEffect = effect
         if let _ = previousAdjustsStack.last as? EffectProtocol {
@@ -80,7 +64,8 @@ final class ImageProcessingManager {
         previousAdjustsStack.append(effect)
         canceledAdjustsStack.removeAll()
     }
-    
+
+// MARK: Adjust buffer logic
     func cancelLastFiltersChange() {
         
         if let currentFilter = previousAdjustsStack.last,
@@ -104,7 +89,7 @@ final class ImageProcessingManager {
             previousAdjustsStack.removeLast()
             currentEffect = Adjust.Effect.WithoutEffect()
         } else {
-            debugPrint("error")         //TODO: возвращать здесь коллекцию в начало
+            debugPrint(":: ImageProcessingManager: no more previous values")         //TODO: возвращать здесь коллекцию в начало
         }
     }
     
@@ -123,7 +108,7 @@ final class ImageProcessingManager {
             previousAdjustsStack.append(effectToReturn)
             canceledAdjustsStack.removeLast()
         } else {
-            debugPrint("error")         //TODO: возвращать здесь коллекцию в начало
+            debugPrint(":: ImageProcessingManager: no more canceled values")         //TODO: возвращать здесь коллекцию в начало
         }
     }
 }

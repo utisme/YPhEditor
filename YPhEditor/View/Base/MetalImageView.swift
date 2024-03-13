@@ -28,8 +28,21 @@ class MetalImageView: MTKView {
     }
     
     func setTexture(from cgImage: CGImage?) {
+//        print("cgImage in setTexture: ", cgImage)
+//        do {
+//            print("result of texture loading: ", try loader.newTexture(cgImage: cgImage!, options: [MTKTextureLoader.Option.origin: MTKTextureLoader.Origin.flippedVertically]))
+//        }
+//        catch {
+//            print("source texture error: ", error)
+//        }
+//        
+        guard let cgImage,
+              let sourceTexture = try? loader.newTexture(cgImage: cgImage, options: [MTKTextureLoader.Option.origin: MTKTextureLoader.Origin.flippedVertically])
+        else {
+            debugPrint(":: Error: MetalImageView -> setTexture: Unable to set texture")
+            return
+        }
         
-        guard let cgImage else { return }
-        sourceTexture = try? loader.newTexture(cgImage: cgImage, options: [MTKTextureLoader.Option.origin: MTKTextureLoader.Origin.flippedVertically])          // TODO: - handle error
+        self.sourceTexture = sourceTexture
     }
 }

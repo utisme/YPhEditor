@@ -33,11 +33,11 @@ final class ImageEditingViewModel: ImageEditingViewModelProtocol {
 //    let viewModelForInfoView: InfoViewModelProtocol = InfoViewModel()
 //    let viewModelForSettingsView: SettingsViewModelProtocol = SettingsViewModel()
     
-// MARK: Logic
     let disposeBag = DisposeBag()
     
     let uploadObservable = PublishRelay<String>()
     
+//MARK: Adjust applying logic
     var adjustsType: ImageProcessingManager.Adjust = .filters
     
     var currentCell: (cell: UICollectionViewCell, rawValue: Int) {
@@ -62,7 +62,7 @@ final class ImageEditingViewModel: ImageEditingViewModelProtocol {
     }
     
     func sliderValueChanged(_ value: CGFloat) {
-        guard let cell = currentCell.cell as? IEFCollectionViewCell else { return }                 //TODO: handle error
+        guard let cell = currentCell.cell as? IEFCollectionViewCell else { return }
         ImageProcessingManager.shared.filtersStack[currentCell.rawValue].value = value
         cell.configure(withValue: value)
     }
@@ -108,9 +108,12 @@ final class ImageEditingViewModel: ImageEditingViewModelProtocol {
     
     func subscribeToViewModel(completion: @escaping(_ url: String, _ uploadingViewModel: ImageEditingUploadingViewModelProtocol)->Void) {//TODO: переделать под комплишены все подобные случаи
         NetworkManager.shared.uploadObservable
-            .asDriver(onErrorJustReturn: "Image uploading error")       //TODO: handle error!
+            .asDriver(onErrorJustReturn: "Image uploading error")
             .drive { [weak self] url in
-                guard let self else { return }                          //TODO: handle error
+                guard let self else {
+                    debugPrint(":: Error: ImageEditingViewModel -> subscribeToViewModel(): Guard error")
+                    return }
+                
                 viewModelForUploadingView.url = url
                 completion(url, viewModelForUploadingView)
             }
@@ -129,10 +132,17 @@ final class ImageEditingViewModel: ImageEditingViewModelProtocol {
         {
             guard let processedImage = ImageProcessingManager.Tools.applyPaprikaFor(CurrentImageManager.shared.currentCGImage),
                   let orientation = CurrentImageManager.shared.currentUIImage?.imageOrientation,
-                  let size = CurrentImageManager.shared.currentUIImage?.size
-            else { return }             // TODO: handle error
+                  let originalSize = CurrentImageManager.shared.currentUIImage?.size
+            else {
+                debugPrint(":: Error: ImageEditingViewModel -> applyAICompletion(): Unable to set image at CurrentImageManager -> currentUIImage")
+                return }
             
-            let image = UIImage(cgImage: processedImage, scale: 1, orientation: orientation).resizedTo(size)
+            let xScale = originalSize.width / CGFloat(processedImage.width)
+            let yScale = originalSize.height / CGFloat(processedImage.height)
+            let scale = originalSize.width < originalSize.height ? xScale : yScale
+            let size = CGSize(width: originalSize.width / scale, height: originalSize.height / scale)
+            
+            let image = UIImage(cgImage: processedImage, scale: 3, orientation: orientation).resizedTo(size)
             CurrentImageManager.shared.currentUIImage = image
         }
     }

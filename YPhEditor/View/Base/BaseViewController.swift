@@ -69,9 +69,15 @@ class BaseViewController: UIViewController {
                 style: .plain,
                 target: nil,
                 action: nil)
+        case .ai:
+            button = UIBarButtonItem(
+                image: Resources.Images.NavBar.ai.withRenderingMode(.alwaysOriginal),
+                style: .done,
+                target: nil,
+                action: nil)
         }
         
-        button.tintColor = .gray
+        button.tintColor = .element.withAlphaComponent(0.9)
         return button
     }
 }

@@ -13,12 +13,16 @@ final class CurrentImageManager: NSObject {
     
     static let shared = CurrentImageManager()
     override private init() {
+        debugPrint(":: Initialization CurrentImageManager")
         super.init()
         
         guard let imageProcessingData = CoreDataManager.shared.fetch(),
               let imageData = imageProcessingData.image,
               let uiImage = UIImage(data: imageData)
-        else { return }                                                                 // TODO: - handle error
+        else {
+            debugPrint(":: Error: CurrentImageManager -> init(): Loading from CoreData Error")
+            return
+        }
 
         currentUIImage = uiImage
         currentCIImage = CIImage(image: uiImage)
@@ -26,8 +30,11 @@ final class CurrentImageManager: NSObject {
     
     var currentUIImage: UIImage? {
         didSet {
+            guard let currentUIImage else {
+                debugPrint(":: Error: CurrentImageManager -> currentUIImage didSet: currentUIImage = nil")
+                return
+            }
             
-            guard let currentUIImage else { return }                            // TODO: - handle error
             currentCIImage = CIImage(image: currentUIImage)
         }
     }
@@ -38,11 +45,14 @@ final class CurrentImageManager: NSObject {
         return currentUIImage?.cgImage
     }
     
+//MARK: Export
     func saveImageToGallery() {
         guard let currentCIImage = ImageProcessingManager.shared.applyProcessingStack(for: currentCIImage),
               let cgImage = ImageProcessingManager.shared.ciContext.createCGImage(currentCIImage, from: currentCIImage.extent),
               let orientation = currentUIImage?.imageOrientation
-        else { return }                                                                 //TODO: handle error и выводить ее на экран
+        else { 
+            debugPrint(":: Error: CurrentImageManager -> saveImageToGallery(): Saving to gallery error")
+            return }                                                                 //TODO: выводить ошибку на экран
         
         
         let imageToSave = UIImage(cgImage: cgImage, scale: 1, orientation: orientation)
@@ -54,7 +64,9 @@ final class CurrentImageManager: NSObject {
               let ciImage = ImageProcessingManager.shared.applyProcessingStack(for: ciImage),
               let cgImage = ImageProcessingManager.shared.ciContext.createCGImage(ciImage, from: ciImage.extent),
               let orientation = currentUIImage?.imageOrientation
-        else { return }       //TODO: handle error
+        else { 
+            debugPrint(":: Error: CurrentImageManager -> uploadImage(): Uploading image error")
+            return }
         
         NetworkManager.shared.uploadImage(UIImage(cgImage: cgImage, scale: 1, orientation: orientation))
     }
@@ -63,7 +75,7 @@ final class CurrentImageManager: NSObject {
 @objc extension CurrentImageManager {
     func image(_ image: UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer) {
         if let error {
-            print(error)         //TODO: handle error
+            debugPrint(":: Error: CurrentImageManager -> image(): Saving to gallery \(error)")
         }
     }
 }

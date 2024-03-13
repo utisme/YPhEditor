@@ -30,7 +30,6 @@ final class IECollectionViewModel: IECollectionViewModelProtocol {
     private var effectsSnapshot: NSDiffableDataSourceSnapshot<Int, Int>!
     
     func prepareData(for collectionView: UICollectionView) {
-        //TODO: заменить cellIndex на экземпляр фильтра
         filtersDataSource = UICollectionViewDiffableDataSource<Int, Int>(collectionView: collectionView) { collectionView, indexPath, cellIndex in
             
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: IEFCollectionViewCell.id, for: indexPath) as? IEFCollectionViewCell
@@ -53,7 +52,7 @@ final class IECollectionViewModel: IECollectionViewModelProtocol {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: IEECollectionViewCell.id, for: indexPath) as? IEECollectionViewCell,
                   let correspondingEffect = ImageProcessingManager.Adjust.Effect(rawValue: cellIndex)?.getEffect(),
                   let effectIcon = correspondingEffect.apply(for: CurrentImageManager.shared.currentCIImage?.transformed(by: CGAffineTransform(scaleX: 0.1, y: 0.1)))
-            else { return IEECollectionViewCell() }             //TODO: handle error
+            else { return IEECollectionViewCell() }
             
             cell.configure(withImage: UIImage(ciImage: effectIcon))
             return cell

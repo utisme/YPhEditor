@@ -10,7 +10,10 @@ import UIKit
 final class IECollectionViewLayout: UICollectionViewFlowLayout {
     
     var currentItemIndex: Int? {
-        guard let collectionView else { return 0 }
+        guard let collectionView else { 
+            debugPrint(":: Error: IECollectionViewLayout -> currentItemIndex: Unable to calculate currentImageIndex")
+            return 0 }
+        
         let cellWithSpacing = itemSize.width + minimumInteritemSpacing
         let cellIndex = (collectionView.contentInset.left + collectionView.contentOffset.x) / cellWithSpacing
         return Int(cellIndex)
@@ -18,15 +21,19 @@ final class IECollectionViewLayout: UICollectionViewFlowLayout {
 
 // MARK: - Inset
     private var centerInset: UIEdgeInsets {
+        guard let collectionView else { 
+            debugPrint(":: Error: IECollectionViewLayout -> centerInset: Unable to calculate centerInset")
+            return UIEdgeInsets(top: .zero, left: .zero, bottom: .zero, right: .zero) }
         
-        guard let collectionView else { return UIEdgeInsets(top: .zero, left: .zero, bottom: .zero, right: .zero) }
         let center: CGFloat = (collectionView.bounds.width - itemSize.width) / 2
         return UIEdgeInsets(top: .zero, left: center, bottom: .zero, right: center)
     }
     
     private var itemsCount: CGFloat {
         
-        guard let collectionView else { return .zero }
+        guard let collectionView else { 
+            debugPrint(":: Error: IECollectionViewLayout -> itemsCount: Unable to calculate itemsCount")
+            return .zero }
         
         let cellWithSpacing = itemSize.width + minimumInteritemSpacing
         let usefullWidth = collectionView.bounds.width - collectionView.contentInset.left - collectionView.contentInset.right
@@ -44,6 +51,7 @@ final class IECollectionViewLayout: UICollectionViewFlowLayout {
                                       withScrollingVelocity velocity: CGPoint) -> CGPoint {
         
         guard let collectionView else {
+            debugPrint(":: Error: IECollectionView -> targetContentOffset: Unable to calculate content offset")
             return super.targetContentOffset(forProposedContentOffset: proposedContentOffset,
                                              withScrollingVelocity: velocity)
         }

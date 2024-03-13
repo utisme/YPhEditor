@@ -13,7 +13,7 @@ final class SuggestionsViewModel: SuggestionsViewModelProtocol {
     
     private var images: [UIImage] = []
     
-    let imagesObservable = PublishSubject<Bool>()                        // нормально ли дергать уже заполненный массив каждый раз при открытии контроллера
+    let imagesObservable = PublishSubject<Bool>()
     let disposeBag = DisposeBag()
     
     let vcWillDisappearObservable = PublishSubject<Bool>()
@@ -24,7 +24,6 @@ final class SuggestionsViewModel: SuggestionsViewModelProtocol {
             .asObservable()
             .asDriver(onErrorJustReturn: [])
             .drive { [weak self] images in
-//                guard let images = images.element else { return }
                 self?.images = images
                 self?.imagesObservable.onNext(true)
         }

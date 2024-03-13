@@ -206,7 +206,7 @@ extension ImageProcessingManager.Adjust {
             private let valueKey = "inputAngle"
             var filterIcon: UIImage? = Resources.Images.ImageEditing.Filters.tint
             
-            private let sliderValueCoef: CGFloat = 0.05
+            private let sliderValueCoef: CGFloat = 0.005
             private let defaultValue: CGFloat = 0
             
             let minSliderValue: CGFloat = -100

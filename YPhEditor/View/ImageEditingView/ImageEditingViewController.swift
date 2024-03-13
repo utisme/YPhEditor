@@ -43,9 +43,10 @@ final class ImageEditingViewController: BaseViewController {
 //            let destVC = InfoViewController(viewModel: viewModel.viewModelForInfoView)
 //            navigationController?.pushViewController(destVC, animated: true)
 //        })
+        
         addNavBarLeftButton(ofType: .download, disposedBy: viewModel.disposeBag, completion: viewModel.downloadImageCompletion())
         addNavBarLeftButton(ofType: .upload, disposedBy: viewModel.disposeBag, completion: viewModel.uploadImageCompletion())
-        addNavBarRightButton(ofType: .info, disposedBy: viewModel.disposeBag, completion: viewModel.applyAICompletion())
+        addNavBarRightButton(ofType: .ai, disposedBy: viewModel.disposeBag, completion: viewModel.applyAICompletion())
     }
 }
 

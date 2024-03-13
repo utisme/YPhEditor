@@ -60,7 +60,11 @@ extension ImageProcessingManager.Adjust {
                 
                 filter.setValue(image, forKey: kCIInputImageKey)
                 
-                guard let outputImage = filter.outputImage else { return image }
+                guard let outputImage = filter.outputImage else {
+                    debugPrint(":: Error: ImageProcessingManager -> Adjust -> Effect -> apply(): Applying filter error")
+                    return image
+                }
+                
                 return outputImage
             }
         }
@@ -73,7 +77,11 @@ extension ImageProcessingManager.Adjust {
                 
                 filter.setValue(image, forKey: kCIInputImageKey)
                 
-                guard let outputImage = filter.outputImage else { return image }
+                guard let outputImage = filter.outputImage else {
+                    debugPrint(":: Error: ImageProcessingManager -> Adjust -> Effect -> apply(): Applying filter error")
+                    return image
+                }
+                
                 return outputImage
             }
         }
@@ -86,7 +94,11 @@ extension ImageProcessingManager.Adjust {
                 
                 filter.setValue(image, forKey: kCIInputImageKey)
                 
-                guard let outputImage = filter.outputImage else { return image }
+                guard let outputImage = filter.outputImage else {
+                    debugPrint(":: Error: ImageProcessingManager -> Adjust -> Effect -> apply(): Applying filter error")
+                    return image
+                }
+                
                 return outputImage
             }
         }
@@ -99,7 +111,11 @@ extension ImageProcessingManager.Adjust {
                 
                 filter.setValue(image, forKey: kCIInputImageKey)
                 
-                guard let outputImage = filter.outputImage else { return image }
+                guard let outputImage = filter.outputImage else {
+                    debugPrint(":: Error: ImageProcessingManager -> Adjust -> Effect -> apply(): Applying filter error")
+                    return image
+                }
+                
                 return outputImage
             }
         }
@@ -112,7 +128,11 @@ extension ImageProcessingManager.Adjust {
                 
                 filter.setValue(image, forKey: kCIInputImageKey)
                 
-                guard let outputImage = filter.outputImage else { return image }
+                guard let outputImage = filter.outputImage else {
+                    debugPrint(":: Error: ImageProcessingManager -> Adjust -> Effect -> apply(): Applying filter error")
+                    return image
+                }
+                
                 return outputImage
             }
         }
@@ -125,7 +145,11 @@ extension ImageProcessingManager.Adjust {
                 
                 filter.setValue(image, forKey: kCIInputImageKey)
                 
-                guard let outputImage = filter.outputImage else { return image }
+                guard let outputImage = filter.outputImage else {
+                    debugPrint(":: Error: ImageProcessingManager -> Adjust -> Effect -> apply(): Applying filter error")
+                    return image
+                }
+                
                 return outputImage
             }
         }
@@ -138,7 +162,11 @@ extension ImageProcessingManager.Adjust {
                 
                 filter.setValue(image, forKey: kCIInputImageKey)
                 
-                guard let outputImage = filter.outputImage else { return image }
+                guard let outputImage = filter.outputImage else {
+                    debugPrint(":: Error: ImageProcessingManager -> Adjust -> Effect -> apply(): Applying filter error")
+                    return image
+                }
+                
                 return outputImage
             }
         }

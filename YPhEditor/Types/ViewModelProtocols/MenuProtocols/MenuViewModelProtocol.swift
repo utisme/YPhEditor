@@ -17,7 +17,6 @@ protocol MenuViewModelProtocol {
     var needShowImageProcessingVC: PublishSubject<Bool> { get }
     var disposeBag: DisposeBag { get }
     
-    func navBarButtonAction()
     func pickImage(_ image: UIImage?)
     func prepareForLastProcessing()
 }
