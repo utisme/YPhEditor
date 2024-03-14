@@ -13,8 +13,9 @@
 
 <h3 align="center">Promo(<a href="https://drive.google.com/file/d/1tafjm4Toqm-4pxoARyW7DCND3kza8o9B/view?usp=sharing">full video</a>):</h3>
 <div align="center">
-  <img src="https://i.ibb.co/NLGFkLr/YPh-Editor-Promo-short.gif" alt="YPhEditor-Promo" height="600">
+  <img src="https://i.ibb.co/4mpfQWh/YPh-Editor-Promo-veryshort-optimized.gif" alt="YPhEditor-Promo" height=600>
 </div>
+
 
 ### Menu screen:
 - Menu screen bacground is based on Metal Kit View and can be redrawn proportionally on screens of different sizes:
