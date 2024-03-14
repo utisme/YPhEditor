@@ -59,11 +59,11 @@ extension ImageProcessingManager {
             return metaData
         }
         
-        static func applyAESRNetFor(_ image: CGImage?) -> CGImage? {
+        static func applyAESRNetFor(_ image: CGImage?) async -> CGImage? {
             MLManager.shared.AESRNetModelPredictFor(image)
         }
         
-        static func applyPaprikaFor(_ image: CGImage?) -> CGImage? {
+        static func applyPaprikaFor(_ image: CGImage?) async -> CGImage? {
             MLManager.shared.paprikaModelPredictFor(image)
         }
     }

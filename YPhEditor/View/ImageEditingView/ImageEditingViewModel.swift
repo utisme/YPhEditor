@@ -32,10 +32,12 @@ final class ImageEditingViewModel: ImageEditingViewModelProtocol {
     var viewModelForUploadingView: ImageEditingUploadingViewModelProtocol = ImageEditingUploadingViewModel()
 //    let viewModelForInfoView: InfoViewModelProtocol = InfoViewModel()
 //    let viewModelForSettingsView: SettingsViewModelProtocol = SettingsViewModel()
-    
+
+//MARK: RX
     let disposeBag = DisposeBag()
-    
     let uploadObservable = PublishRelay<String>()
+    let aiFilterObservable = PublishRelay<Bool>()
+    
     
 //MARK: Adjust applying logic
     var adjustsType: ImageProcessingManager.Adjust = .filters
@@ -106,7 +108,7 @@ final class ImageEditingViewModel: ImageEditingViewModelProtocol {
     
     //MARK: NavBarButtons Actions
     
-    func subscribeToViewModel(completion: @escaping(_ url: String, _ uploadingViewModel: ImageEditingUploadingViewModelProtocol)->Void) {//TODO: переделать под комплишены все подобные случаи
+    func subscribeToUploadObservable(completion: @escaping(_ url: String, _ uploadingViewModel: ImageEditingUploadingViewModelProtocol)->Void) {//TODO: переделать под комплишены все подобные случаи
         NetworkManager.shared.uploadObservable
             .asDriver(onErrorJustReturn: "Image uploading error")
             .drive { [weak self] url in
@@ -120,6 +122,13 @@ final class ImageEditingViewModel: ImageEditingViewModelProtocol {
             .disposed(by: disposeBag)
     }
     
+    func subscribeToAIFilterObservable(completion: @escaping (_:Bool) -> Void) {
+        aiFilterObservable
+            .asDriver(onErrorJustReturn: true)
+            .drive(onNext: completion)
+            .disposed(by: disposeBag)
+    }
+    
     func downloadImageCompletion() -> ()->Void {
         { CurrentImageManager.shared.saveImageToGallery() }
     }
@@ -128,9 +137,9 @@ final class ImageEditingViewModel: ImageEditingViewModelProtocol {
         { CurrentImageManager.shared.uploadImage() }
     }
     
-    func applyAICompletion() -> () -> Void {
-        {
-            guard let processedImage = ImageProcessingManager.Tools.applyPaprikaFor(CurrentImageManager.shared.currentCGImage),
+    func applyAIFilter() {
+        Task { [weak self] in
+            guard let processedImage = await ImageProcessingManager.Tools.applyPaprikaFor(CurrentImageManager.shared.currentCGImage),
                   let orientation = CurrentImageManager.shared.currentUIImage?.imageOrientation,
                   let originalSize = CurrentImageManager.shared.currentUIImage?.size
             else {
@@ -144,6 +153,7 @@ final class ImageEditingViewModel: ImageEditingViewModelProtocol {
             
             let image = UIImage(cgImage: processedImage, scale: 3, orientation: orientation).resizedTo(size)
             CurrentImageManager.shared.currentUIImage = image
+            self?.aiFilterObservable.accept(true)
         }
     }
 }

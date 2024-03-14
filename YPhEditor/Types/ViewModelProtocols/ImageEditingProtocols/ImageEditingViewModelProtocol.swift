@@ -38,8 +38,9 @@ protocol ImageEditingViewModelProtocol {
     func updateViews()
     
     //MARK: NavBar actions
-    func subscribeToViewModel(completion: @escaping(_ url: String, _ uploadingViewModel: ImageEditingUploadingViewModelProtocol)->Void)
+    func subscribeToUploadObservable(completion: @escaping(_ url: String, _ uploadingViewModel: ImageEditingUploadingViewModelProtocol)->Void)
+    func subscribeToAIFilterObservable(completion: @escaping(_: Bool)->Void)
     func downloadImageCompletion() -> ()->Void
     func uploadImageCompletion() -> ()->Void
-    func applyAICompletion() -> ()->Void
+    func applyAIFilter()
 }

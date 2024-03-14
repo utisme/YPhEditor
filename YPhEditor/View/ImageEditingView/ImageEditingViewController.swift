@@ -17,7 +17,8 @@ final class ImageEditingViewController: BaseViewController {
     private let toolBar: ImageEditingToolBar
     private var slider: ImageEditingSlider
     private let collectionView: IECollectionView
-    private let metalImageView: ImageEditingMetalImageView    
+    private let metalImageView: ImageEditingMetalImageView  
+    private let aiFilterActivityAlert: AIFilterActivityAlert
     
     // MARK: - CONFIGURATION
     init(viewModel: ImageEditingViewModelProtocol) {
@@ -27,6 +28,7 @@ final class ImageEditingViewController: BaseViewController {
         self.slider = ImageEditingSlider(viewModel: viewModel.viewModelForSlider)
         self.collectionView = IECollectionView(viewModel: viewModel.viewModelForCollection)
         self.metalImageView = ImageEditingMetalImageView(viewModel: viewModel.viewModelForMetalImage)
+        self.aiFilterActivityAlert = AIFilterActivityAlert(title: Resources.Strings.ImageEditing.aiActivityAlert, message: nil, preferredStyle: .alert)
         
         super.init(nibName: nil, bundle: nil)
     }
@@ -46,7 +48,14 @@ final class ImageEditingViewController: BaseViewController {
         
         addNavBarLeftButton(ofType: .download, disposedBy: viewModel.disposeBag, completion: viewModel.downloadImageCompletion())
         addNavBarLeftButton(ofType: .upload, disposedBy: viewModel.disposeBag, completion: viewModel.uploadImageCompletion())
-        addNavBarRightButton(ofType: .ai, disposedBy: viewModel.disposeBag, completion: viewModel.applyAICompletion())
+        addNavBarRightButton(ofType: .ai, disposedBy: viewModel.disposeBag) { [weak self] in
+            guard let self else { 
+                debugPrint(":: Error: ImageEditingViewController -> configureButtons -> .ai: Unable to access self")
+                return }
+            
+            present(aiFilterActivityAlert, animated: true)
+            viewModel.applyAIFilter()
+        }
     }
 }
 
@@ -56,10 +65,21 @@ extension ImageEditingViewController {
         super.setConfigurations()
         
         viewModel.setViewsConfigurations(slider: slider)
-        viewModel.subscribeToViewModel { [weak self] url, destVCViewModel in
-            guard let self else { return }
+        viewModel.subscribeToUploadObservable { [weak self] url, destVCViewModel in
+            guard let self else { 
+                debugPrint(":: Error: ImageEditingViewController -> setConfigurations -> uploadObservable Action: Unable to access self")
+                return }
+            
             let destVC = ImageEditingUploadingController(viewModel: destVCViewModel)
             present(destVC, animated: true)
+        }
+        
+        viewModel.subscribeToAIFilterObservable { [weak self] _ in
+            guard let self else {
+                debugPrint(":: Error: ImageEditingViewController -> setConfigurations -> aiFilterObservable Action: Unable to access self")
+                return }
+            
+            aiFilterActivityAlert.dismiss(animated: true)
         }
         configureButtons()
     }

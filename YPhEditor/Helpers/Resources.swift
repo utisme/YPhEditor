@@ -31,6 +31,8 @@ struct Resources {
         
         enum ImageEditing {
             
+            static let aiActivityAlert = "Processing...".localized()
+            
             enum Uploding {
                 
                 static let copyButton = "Copy Link".localized()

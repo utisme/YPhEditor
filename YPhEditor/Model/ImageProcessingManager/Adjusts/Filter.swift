@@ -70,7 +70,7 @@ extension ImageProcessingManager.Adjust {
             private let valueKey = "inputPower"
             var filterIcon: UIImage? = Resources.Images.ImageEditing.Filters.gamma
             
-            private let sliderValueCoef: CGFloat = 0.01
+            private let sliderValueCoef: CGFloat = 0.005
             private let defaultValue: CGFloat = 1
             
             let minSliderValue: CGFloat = -100
@@ -124,7 +124,7 @@ extension ImageProcessingManager.Adjust {
             private let valueKey = kCIInputContrastKey
             var filterIcon: UIImage? = Resources.Images.ImageEditing.Filters.contrast
             
-            private let sliderValueCoef: CGFloat = 0.01
+            private let sliderValueCoef: CGFloat = 0.001
             private let defaultValue: CGFloat = 1
             
             let minSliderValue: CGFloat = -100
@@ -152,7 +152,7 @@ extension ImageProcessingManager.Adjust {
             private let valueKey = kCIInputBrightnessKey
             var filterIcon: UIImage? = Resources.Images.ImageEditing.Filters.brightness
             
-            private let sliderValueCoef: CGFloat = 0.01
+            private let sliderValueCoef: CGFloat = 0.0005
             private let defaultValue: CGFloat = 0
             
             let minSliderValue: CGFloat = -100
@@ -180,7 +180,7 @@ extension ImageProcessingManager.Adjust {
             private let valueKey = "inputAmount"
             var filterIcon: UIImage? = Resources.Images.ImageEditing.Filters.vibrance
             
-            private let sliderValueCoef: CGFloat = 0.05
+            private let sliderValueCoef: CGFloat = 0.005
             private let defaultValue: CGFloat = 0
             
             let minSliderValue: CGFloat = -100
