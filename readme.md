@@ -11,6 +11,11 @@
 **CV:** <br>
 <a href="https://drive.google.com/file/d/14LYqg4HZCRqsP3LqheVEm5_oMC3hXWlY/view?usp=sharing"><img src="https://i.ibb.co/g4tBnpC/cv.png" alt="CVIcon" height=80></a>
 
+<h3 align="center">Promo(<a href="https://drive.google.com/file/d/1tafjm4Toqm-4pxoARyW7DCND3kza8o9B/view?usp=sharing">full video</a>):</h3>
+<div align="center">
+  <img src="https://i.ibb.co/NLGFkLr/YPh-Editor-Promo-short.gif" alt="YPhEditor-Promo" height="600">
+</div>
+
 ### Menu screen:
 - Menu screen bacground is based on Metal Kit View and can be redrawn proportionally on screens of different sizes:
 <br>
@@ -56,7 +61,7 @@
 
 ### Image Editing screen:
 - The toolbar allows to undo previous action and return it. The second button on the center allows to switch the collection for "Effects".
-- The custom slider applies a filter when the value changes.
+- The custom slider with vibration response applies a filter when the value changes.
 - The "Filters" collection displays changes in the corresponding to needed filter cell.
 - Metal Kit MTKView allows to render the image and display changes in "real time".
 - The NavBar contains two export buttons and AI button, that apply AI-filter.
