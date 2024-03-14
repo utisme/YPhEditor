@@ -56,7 +56,7 @@
 - Image for processing can be choosen from gallery, camera and suggestions. This could be also previous work.
 
 ### Suggestions screen:
-- Suggestion screen is a collection with images downloaded from [this image hoster](unsplash.com) by GET request including parameter - "popular":
+- Suggestion screen is a collection with images received from [this image hoster](unsplash.com) by GET request including parameter - "popular", and downloaded using Alamofire:
 <br>
 <div align="center"><img src="https://i.ibb.co/qg27p6k/F5-A05000-AA20-45-B7-BAA2-D75-A04433133.png" alt="Suggestions screen" height=600></div>
 
